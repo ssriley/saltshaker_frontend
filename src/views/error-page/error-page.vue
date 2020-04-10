@@ -9,7 +9,7 @@
             <Card>
                 <p slot="title">
                     <Icon :size="14" type="ios-navigate-outline"></Icon>
-                    404-页面不存在
+                    404-Page does not exist
                 </p>
                 <Row>
                     <Col span="10">
@@ -24,7 +24,7 @@
                     </Col>
                     <Col span="14" class="padding-left-10">
                         <Row type="flex" align="middle" class="error-page-intro-con">
-                            <p>当访问的页面不存在时会跳转到404页面，您可以在浏览器地址栏中修改url为一个不存在的路径，体验一下效果</p>
+                            <p>When the accessed page does not exist, it will jump to the 404 page. You can modify the url to a non-existent path in the browser address bar to experience the effect</p>
                         </Row>
                     </Col>
                 </Row>
@@ -34,7 +34,7 @@
             <Card>
                 <p slot="title">
                     <Icon :size="14" type="android-lock"></Icon>
-                    403-权限不足
+                    403-Insufficient permissions
                 </p>
                 <Row>
                     <Col span="10">
@@ -49,7 +49,7 @@
                     </Col>
                     <Col span="14" class="padding-left-10">
                         <Row type="flex" align="middle" class="error-page-intro-con">
-                            <p>在当前登录用户不具有执行当前操作的权限时跳转到该页面，您可以在ajax请求方法中判断返回的状态码为403时跳转到该页面</p>
+                            <p>Jump to this page when the currently logged-in user does not have permission to perform the current operation</p>
                         </Row>
                     </Col>
                 </Row>
@@ -59,7 +59,7 @@
             <Card>
                 <p slot="title">
                     <Icon :size="14" type="social-freebsd-devil"></Icon>
-                    500-服务端错误
+                    500-Server error
                 </p>
                 <Row>
                     <Col span="10">
@@ -74,7 +74,7 @@
                     </Col>
                     <Col span="14" class="padding-left-10">
                         <Row type="flex" align="middle" class="error-page-intro-con">
-                            <p>当请求之后出现服务端错误时跳转到该页面，您可以在ajax请求方法中判断返回的状态码为500时跳转到该页面</p>
+                            <p>Jump to the page when a server error occurs after the request, you can jump to the page when the returned status code is 500 in the ajax request method</p>
                         </Row>
                     </Col>
                 </Row>

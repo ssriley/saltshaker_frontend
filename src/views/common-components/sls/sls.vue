@@ -14,7 +14,7 @@
                         <div style="float: right;" >
                             <slot name="create"></slot>
                             <slot name="downMenu"></slot>
-                            <Button type="primary" @click="refresh()">刷新</Button>
+                            <Button type="primary" @click="refresh()">Refresh</Button>
                         </div>
                     </Row>
                     <Row>
@@ -45,14 +45,14 @@
                                     {{fileContent}}
                                     </highlight-code>
                                 </FormItem>
-                                <Button type="dashed" :disabled="editDisabled" @click="handleEdit()" slot="commitButton">编辑</Button>
+                                <Button type="dashed" :disabled="editDisabled" @click="handleEdit()" slot="commitButton">Edit</Button>
                             </common-execute>
                         </Col>
                     </Row>
                 </Card>
             </Col>
         </Row>
-        <Modal width="750px" v-model="edit" title="编辑">
+        <Modal width="750px" v-model="edit" title="Edit">
             <MonacoEditor
                 height="300"
                 width="100%"
@@ -69,8 +69,8 @@
                 >
             </MonacoEditor>
             <div slot="footer">
-                <Button type="text" @click="handleCancel">取消</Button>
-                <Button type="success" @click="handleCommit">提交</Button>
+                <Button type="text" @click="handleCancel">Cancel</Button>
+                <Button type="success" @click="handleCommit">Submit</Button>
             </div>
         </Modal>
 
@@ -96,7 +96,7 @@
                 fileTreeData: [],
                 fileTree: [],
                 fileListPathData: [],
-                // 编辑
+                // Edit
                 edit: false,
                 editDisabled: true,
                 filePath: '',
@@ -138,13 +138,13 @@
             }
         },
         watch: {
-            // 监控产品线变化
+            // Monitor product line changes
             productId () {
                 this.branch();
             },
             branchName () {
                 if (this.branchName !== '') {
-                    // 获取第一级GitLab数据
+                    // Get first-level GitLab data
                     this.fileList();
                 } else {
                     this.fileTreeData = [];
@@ -231,7 +231,7 @@
                         this.nError('Get File Tree Failure', errInfo);
                     });
             },
-            // 传入path获取gitlab对应数据
+            // Pass in the path to get gitlab corresponding data
             fileListPath (path) {
                 this.fileContent = '';
                 this.axios.get(this.Global.serverSrc + this.apiService + '/file?product_id=' + this.productId + '&project_type=' + this.projectType + '&path=' + path + '&branch=' + this.branchName).then(
@@ -278,15 +278,15 @@
                         });
                 }
             },
-            // 展开树型结构获取gitlab数据
+            // Expand the tree structure to get gitlab data
             loadData (item, callback) {
                 this.fileListPath(item['path']);
-                // fileListPath为异步方法,等待500ms
+                // fileListPath is an asynchronous method, waiting for 500ms
                 setTimeout(() => {
                     callback(this.fileListPathData);
                 }, 500);
             },
-            // 重新定义错误消息
+            // Redefine the error message
             nError (title, info) {
                 this.$Notice.error({
                     title: title,
@@ -296,13 +296,13 @@
             },
             refresh () {
                 this.fileList();
-                // 调用hook进行更新
+                // Call hook to update
                 this.handleHook();
                 this.editDisabled = true;
             },
             handleCancel () {
-                // 取消编辑后再请求一次文件内容,以便恢复文件内容
-                // 暂时关闭
+                // Request the content of the file again after canceling the editing in order to restore the content of the file
+                // Temporarily closed
                 // this.handleContent(this.filePath);
                 this.edit = false;
             },
@@ -324,8 +324,8 @@
                         if (res.data['status'] === true) {
                             this.result = res.data['data'];
                             this.edit = false;
-                            this.$Message.success('成功！');
-                            // 调用hook进行更新
+                            this.$Message.success('success！');
+                            // Call hook to update
                             this.handleHook();
                         } else {
                             this.nError('Commit Failure', res.data['message']);
@@ -370,7 +370,7 @@
                 console.log(this.editor.getValue());
                 this.code = this.editor.getValue();
             },
-            // 重载编辑框
+            // Reload edit box
             reload () {
                 clearTimeout(time);
                 let time = setTimeout(() => {

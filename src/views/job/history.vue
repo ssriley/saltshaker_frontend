@@ -1,7 +1,7 @@
 <template>
     <div>
         <common-table :cColumns="cColumns" :apiService="apiService" :productShow="true"></common-table>
-        <Modal width="650px" v-model="showInfo" title="返回结果" >
+        <Modal width="650px" v-model="showInfo" title="Return result" >
             <highlight-code lang="json" style="overflow:auto" v-if="result">
                 {{result}}
             </highlight-code>
@@ -46,22 +46,22 @@
                         }
                     },
                     {
-                        title: '用户名',
+                        title: 'username',
                         key: 'user',
                         sortable: true
                     },
                     {
-                        title: '目标',
+                        title: 'Target',
                         key: 'id',
                         sortable: true
                     },
                     {
-                        title: '功能',
+                        title: 'function',
                         key: 'fun',
                         sortable: true
                     },
                     {
-                        title: '参数',
+                        title: 'parameters',
                         key: 'fun_args',
                         render: (h, params) => {
                             if (params.row.fun_args === undefined) {
@@ -71,7 +71,7 @@
                         }
                     },
                     {
-                        title: '时间',
+                        title: 'time',
                         key: '_stamp',
                         sortable: true
                     }

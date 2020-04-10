@@ -44,8 +44,8 @@
                                     <Icon type="arrow-down-b"></Icon>
                                 </a>
                                 <DropdownMenu slot="list">
-                                    <DropdownItem name="ownSpace">个人中心</DropdownItem>
-                                    <DropdownItem name="loginout" divided>退出登录</DropdownItem>
+                                    <DropdownItem name="ownSpace">Account Settings</DropdownItem>
+                                    <DropdownItem name="loginout" divided>Sign Out</DropdownItem>
                                 </DropdownMenu>
                             </Dropdown>
                             <Avatar :src="avatorPath" style="background: #619fe7;margin-left: 10px;"></Avatar>
@@ -91,7 +91,7 @@
         },
         data () {
             return {
-                // 控制左侧菜单栏是否折叠
+                // Controls whether the left menu bar is collapsed
                 shrink: false,
                 userName: '',
                 isFullScreen: false,
@@ -103,10 +103,10 @@
                 return this.$store.state.app.menuList;
             },
             pageTagsList () {
-                return this.$store.state.app.pageOpenedList; // 打开的页面的页面对象
+                return this.$store.state.app.pageOpenedList; // Page object of the opened page
             },
             currentPath () {
-                return this.$store.state.app.currentPath; // 当前面包屑数组
+                return this.$store.state.app.currentPath; // Current breadcrumb array
             },
             avatorPath () {
                 return localStorage.avatorImgPath;
@@ -147,7 +147,7 @@
                         name: 'ownspace_index'
                     });
                 } else if (name === 'loginout') {
-                    // 退出登录
+                    // sign out
                     this.$store.commit('logout', this);
                     this.$store.commit('clearOpenedSubmenu');
                     this.$router.push({
@@ -161,7 +161,7 @@
                         return true;
                     }
                 });
-                if (!openpageHasTag) { //  解决关闭当前标签后再点击回退按钮会退到当前页时没有标签的问题
+                if (!openpageHasTag) { //  Solve the problem that when closing the current tab and then clicking the back button will return to the current page without a label
                     util.openNewPage(this, name, this.$route.params || {}, this.$route.query || {});
                 }
             },
@@ -191,14 +191,14 @@
                 localStorage.currentPageName = to.name;
             },
             lang () {
-                util.setCurrentPath(this, this.$route.name); // 在切换语言时用于刷新面包屑
+                util.setCurrentPath(this, this.$route.name); // Used to refresh breadcrumbs when switching languages
             }
         },
         mounted () {
             this.init();
         },
         created () {
-            // 显示打开的页面的列表
+            // Display a list of open pages
             this.$store.commit('setOpenedList');
         }
     };

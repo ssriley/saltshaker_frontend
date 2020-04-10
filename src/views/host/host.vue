@@ -7,36 +7,36 @@
                 @getRowEvent="getRowEvent"
                 :productShow="true"
                 ref="childrenMethods">
-            <Button slot="create" type="primary" @click="sync()">同步主机</Button>
-            <Button slot="create" type="primary" @click="add('formValidate')" v-show="false">创建主机</Button>
+            <Button slot="create" type="primary" @click="sync()">Sync Host</Button>
+            <Button slot="create" type="primary" @click="add('formValidate')" v-show="false">Create host</Button>
             <Modal slot="option" v-model="formView"  :title="optionTypeName">
                 <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="70" inline>
-                    <FormItem label="标签">
+                    <FormItem label="label">
                         <Tag v-for="item in formValidate.tag" :key="item.name" :name="item.name" :color="item.color" closable @on-close="handleTagDel">{{item.name}}</Tag>
                     </FormItem>
-                    <FormItem label="添加标签" prop="tagName">
+                    <FormItem label="add tag" prop="tagName">
                         <Input size="small" v-model="formValidate.tagName" style="width:220px"></Input>
                         <Select size="small" v-model="tagColor" style="width:80px">
-                            <Option value="default" key="default">默认</Option>
-                            <Option value="green" key="green">绿色</Option>
-                            <Option value="red" key="red">红色</Option>
-                            <Option value="yellow" key="yellow">黄色</Option>
+                            <Option value="default" key="default">default</Option>
+                            <Option value="green" key="green">green</Option>
+                            <Option value="red" key="red">red</Option>
+                            <Option value="yellow" key="yellow">yellow</Option>
                         </Select>
-                        <Button icon="ios-plus-empty" type="dashed" size="small" @click="handleTagAdd('formValidate')">添加标签</Button>
+                        <Button icon="ios-plus-empty" type="dashed" size="small" @click="handleTagAdd('formValidate')">add tag</Button>
                     </FormItem>
                 </Form>
                 <div slot="footer">
-                    <Button type="ghost" @click="handleCancel()" style="margin-left: 8px">取消</Button>
+                    <Button type="ghost" @click="handleCancel()" style="margin-left: 8px">cancel</Button>
                 </div>
             </Modal>
-            <Modal slot="option" v-model="syncHost" title="同步主机">
+            <Modal slot="option" v-model="syncHost" title="Sync Host">
                 <div style="text-align:center">
-                    此功能会根据Minion状态同步主机信息，以确保数据一致性
-                    <Button type="success" size="small" @click="handleSync()">同步</Button>
+                    This function will synchronize the host information according to the Minion status to ensure data consistency
+                    <Button type="success" size="small" @click="handleSync()">Synchronize</Button>
                     <Progress v-show="progress" :percent="percent" status="active"></Progress>
                 </div>
                 <div slot="footer">
-                    <Button type="ghost" @click="handleCancel()" style="margin-left: 8px">取消</Button>
+                    <Button type="ghost" @click="handleCancel()" style="margin-left: 8px">cancel</Button>
                 </div>
             </Modal>
         </common-table>
@@ -54,10 +54,10 @@
                 apiService: 'host',
                 productData: [],
                 productId: '',
-                // 删除数据
+                // delete data
                 delId: '',
                 delIndex: '',
-                // 编辑数据
+                // Edit data
                 formView: false,
                 buttonShow: false,
                 syncHost: false,
@@ -90,7 +90,7 @@
                         }
                     },
                     {
-                        title: '分组',
+                        title: 'Grouping',
                         key: 'groups',
                         sortable: true,
                         render: (h, params) => {
@@ -106,7 +106,7 @@
                         }
                     },
                     {
-                        title: '标签',
+                        title: 'label',
                         key: 'tag',
                         sortable: true,
                         render: (h, params) => {
@@ -122,7 +122,7 @@
                         }
                     },
                     {
-                        title: '操作',
+                        title: 'Action',
                         key: 'action',
                         width: 123,
                         align: 'center',
@@ -140,18 +140,18 @@
                                         click: () => {
                                             this.formView = true;
                                             this.optionType = 'edit';
-                                            this.optionTypeName = '编辑';
+                                            this.optionTypeName = 'edit';
                                             this.id = params.row.id;
                                             this.minionId = params.row.minion_id;
                                             this.formValidate.tagName = '';
                                             this.formValidate.tag = params.row.tag;
                                         }
                                     }
-                                }, '编辑'),
+                                }, 'edit'),
                                 h('Poptip', {
                                     props: {
                                         confirm: true,
-                                        title: '确定要删除 ' + params.row.name + ' 吗?',
+                                        title: 'Are you sure you want to delete ' + params.row.name + ' ?',
                                         transfer: true,
                                         placement: 'top-end'
                                     },
@@ -169,20 +169,20 @@
                                             size: 'small',
                                             disabled: true
                                         }
-                                    }, '删除')
+                                    }, 'delete')
                                 ])
                             ]);
                         }
                     }
                 ],
-                // 表单验证
+                // form Validation
                 formValidate: {
                     tagName: '',
                     tag: []
                 },
                 ruleValidate: {
                     tagName: [
-                        { required: true, message: '标签不能为空', trigger: 'blur' }
+                        { required: true, message: 'Label cannot be empty', trigger: 'blur' }
                     ]
                 }
             };
@@ -200,30 +200,30 @@
                     this.buttonShow = false;
                 }
             },
-            // 调用子组件进行删除
+            // Call subcomponent to delete
             del () {
                 this.$refs.childrenMethods.del(this.delId);
             },
-            // 调用子组件进行数据刷新
+            // Call subcomponent to refresh data
             tableList () {
                 this.$refs.childrenMethods.tableList();
             },
-            // 调用子组件消息通知
+            // Call sub-component message notification
             nError (title, info) {
                 this.$refs.childrenMethods.nError(title, info);
             },
-            // 添加展示
+            // Add impression
             add (name) {
                 this.handleReset(name);
                 this.optionType = 'add';
-                this.optionTypeName = '添加';
+                this.optionTypeName = 'add to';
                 this.formView = true;
             },
-            // 表单提
+            // form mention
             handleSubmit (name) {
                 this.$refs[name].validate((valid) => {
                     if (valid) {
-                        // 编辑
+                        // edit
                         let postData = {
                             'name': this.formValidate.name,
                             'description': this.formValidate.description,
@@ -237,7 +237,7 @@
                                 res => {
                                     if (res.data['status'] === true) {
                                         this.formView = false;
-                                        this.$Message.success('成功！');
+                                        this.$Message.success('success！');
                                         this.tableList();
                                     } else {
                                         this.nError('Edit Failure', res.data['message']);
@@ -253,13 +253,13 @@
                                     this.nError('Edit Failure', errInfo);
                                 });
                         } else {
-                            // 添加
+                            // add to
                             this.axios.post(this.Global.serverSrc + this.apiService,
                                 postData).then(
                                 res => {
                                     if (res.data['status'] === true) {
                                         this.formView = false;
-                                        this.$Message.success('成功！');
+                                        this.$Message.success('success！');
                                         this.tableList();
                                     } else {
                                         this.nError('Add Failure', res.data['message']);
@@ -276,11 +276,11 @@
                                 });
                         }
                     } else {
-                        this.$Message.error('请检查表单数据！');
+                        this.$Message.error('Please check the form data！');
                     }
                 });
             },
-            // 表单重置
+            // Form reset
             handleReset (name) {
                 this.$refs[name].resetFields();
             },
@@ -295,7 +295,7 @@
             handleTagAdd (name) {
                 for (var i = 0; i < this.formValidate.tag.length; i++) {
                     if (this.formValidate.tag[i]['name'] === this.formValidate.tagName) {
-                        this.$Message.error('标签不能重复！');
+                        this.$Message.error('Labels cannot be repeated');
                         return;
                     }
                 }
@@ -310,7 +310,7 @@
                         this.axios.put(this.Global.serverSrc + this.apiService + '/' + this.id, postData).then(
                             res => {
                                 if (res.data['status'] === true) {
-                                    this.$Message.success('添加成功！');
+                                    this.$Message.success('add tosuccess！');
                                 } else {
                                     this.nError('Add Failure', res.data['message']);
                                 }
@@ -325,12 +325,12 @@
                                 this.nError('Add Failure', errInfo);
                             });
                     } else {
-                        this.$Message.error('请检查表单数据！');
+                        this.$Message.error('Please check the form data！');
                     }
                 });
             },
             handleTagDel (event, name) {
-                // 删除tag
+                // Delete tag
                 this.formValidate.tag.splice(this.formValidate.tag.findIndex(item => item.name === name), 1);
                 let postData = {
                     'tag': this.formValidate.tag,
@@ -340,7 +340,7 @@
                 this.axios.put(this.Global.serverSrc + this.apiService + '/' + this.id, postData).then(
                     res => {
                         if (res.data['status'] === true) {
-                            this.$Message.success('删除成功！');
+                            this.$Message.success('删除success！');
                         } else {
                             this.nError('Delete Failure', res.data['message']);
                         }

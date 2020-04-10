@@ -17,7 +17,7 @@
                 showInfo: false,
                 minion: [],
                 tmp: '',
-                // 删除数据
+                // delete data
                 delId: '',
                 delIndex: '',
                 result: '',
@@ -28,7 +28,7 @@
                         sortable: true
                     },
                     {
-                        title: '状态',
+                        title: 'Status',
                         key: 'status',
                         sortable: true,
                         render: (h, params) => {

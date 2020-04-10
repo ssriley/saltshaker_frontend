@@ -15,7 +15,7 @@
                         <div style="float: right;" >
                             <slot name="create"></slot>
                             <slot name="downMenu"></slot>
-                            <Button type="primary" @click="refresh()">刷新</Button>
+                            <Button type="primary" @click="refresh()">Refresh</Button>
                         </div>
                     </Row>
                     <Row>
@@ -28,9 +28,9 @@
                             </Input>
                         </div>
                         <div style="margin-bottom: -10px;">
-                            <Button type="primary" @click="exportData(1)">导出数据</Button>
+                            <Button type="primary" @click="exportData(1)">Export</Button>
                             <Poptip placement="bottom-start">
-                                <Button type="primary">自定义列</Button>
+                                <Button type="primary">Custom Column</Button>
                                 <div slot="content">
                                   <ul>
                                     <li v-for="(c, i) in nColumns" v-if="i > 0" :key="i">
@@ -41,7 +41,7 @@
                             </Poptip>
                             <Dropdown>
                                 <Button type="primary">
-                                    显示条数
+                                    Show number
                                     <Icon type="arrow-down-b"></Icon>
                                 </Button>
                                 <DropdownMenu slot="list">
@@ -58,7 +58,7 @@
                                         <div @click="customPage(100)">100</div>
                                     </DropdownItem>
                                     <DropdownItem divided>
-                                        <div @click="customPage(pageCount)">全部</div>
+                                        <div @click="customPage(pageCount)">All</div>
                                     </DropdownItem>
                                 </DropdownMenu>
                             </Dropdown>
@@ -99,7 +99,7 @@
                 pageSize: 10,
                 pageCurrent: 1,
                 pageCount: this.pageCount,
-                // 搜索
+                // search for
                 nSearchVal: '',
                 tmpData: [],
                 showBorder: true,
@@ -122,13 +122,13 @@
             }
         },
         watch: {
-            // 监控产品线变化
+            // Monitor product line changes
             productId () {
                 this.loading = true;
                 this.pageCurrent = 1;
                 this.pageSize = 10;
                 this.tableList();
-                // 产品线变化后传递产品线信息给父组件
+                // Pass product line information to parent component after product line change
                 this.getProduct();
             }
         },
@@ -136,7 +136,7 @@
             nColumnsExcept () {
                 return this.nColExcept || this.nLocalColExcept;
             },
-            // 过滤列
+            // Filter column
             filterColumns () {
                 return this.nColumns.filter(x => {
                     return this.nColumnsExcept.indexOf(x.key) === -1;
@@ -144,15 +144,15 @@
             }
         },
         methods: {
-            // 更改显示条数
+            // Change the number of displays
             customPage (num) {
                 this.pageSize = num;
                 let list = [];
-                // 如果没有进行搜索tmpData是原始全部数据,如果进行了搜索tmpData为搜索或的数据
+                // If no search is performed, tmpData is the original full data, and if a search is performed, tmpData is the data for the search or
                 list = nCopy(this.tmpData);
                 list.splice(this.pageSize, this.pageCount);
                 this.tableData = list;
-                // 初始化到第一页
+                // Initialize to the first page
                 this.pageCurrent = 1;
             },
             tableList () {
@@ -161,9 +161,9 @@
                         if (res.data['status'] === true) {
                             this.tableData = res.data['data'];
                             this.pageCount = this.tableData.length;
-                            // nData 为原始数据始终不能改变
+                            // nData The original data can never be changed
                             this.nData = nCopy(this.tableData);
-                            // tmpData 初始值与nData相同,后面用于搜索,翻页,改变表格条数使用
+                            // tmpData The initial value is the same as nData, which is used for searching, page turning, and changing the number of tables.
                             this.tmpData = nCopy(this.tableData);
                             this.tableData.splice(this.pageSize, this.pageCount);
                             this.pageCurrent = 1;
@@ -215,16 +215,16 @@
                         this.nError('Get Product Failure', errInfo);
                     });
             },
-            // 重新定义错误消息
+            // Redefine the error message
             nError (title, info) {
                 this.$Notice.error({
                     title: title,
-                    // 替换<>避免被解析为html标签
+                    // Replace <> to avoid being parsed as html tags
                     desc: info.toString().replace(/<|>/g, ''),
                     duration: 10
                 });
             },
-            // 刷新表格数据
+            // Refresh table data
             refresh () {
                 this.loading = true;
                 this.tableList();
@@ -239,12 +239,12 @@
             },
             changePage (page) {
                 let list = [];
-                // 如果没有进行搜索tmpData是原始全部数据,如果进行了搜索tmpData为搜索或的数据
+                // If no search is performed, tmpData is the original full data, and if a search is performed, tmpData is the data for the search or
                 list = nCopy(this.tmpData);
                 this.pageCurrent = page;
                 this.tableData = list.splice((page - 1) * this.pageSize, this.pageSize);
             },
-            // 导出表格数据
+            // Export table data
             exportData (type) {
                 if (type === 1) {
                     this.$refs.table.exportCsv({
@@ -265,7 +265,7 @@
                 }
             },
             search (data, searchVal) {
-                // 最终的是最字符串的搜索,达到模糊匹配的效果
+                // The end is the search for the most string, to achieve the effect of fuzzy matching
                 let res = data;
                 let dataClone = data;
                 let searchResult = [];
@@ -275,10 +275,10 @@
                         if (key !== 'action' && key !== undefined) {
                             res = dataClone.filter(d => {
                                 let value = d[key];
-                                // 如果是数组在进行filter
+                                // If it is an array filter
                                 if (value instanceof Array) {
                                     let tmp = value.filter(v => {
-                                        // 如果是数组里面是对象在搜索
+                                        // If it is an object in the array, search
                                         if (v instanceof Object) {
                                             let r = false;
                                             for (let s in v) {
@@ -301,7 +301,7 @@
                                     });
                                     return tmp.length > 0;
                                 } else {
-                                    // 转换成字符串,数字没有indexOf方法
+                                    // Convert to string, number has no indexOf method
                                     let x = '';
                                     if (value !== undefined) {
                                         x = value.toString().toLowerCase();
@@ -312,33 +312,33 @@
                             searchResult = searchResult.concat(res);
                         }
                     }
-                    // 数组去重
+                    // Array deduplication
                     return [...new Set(searchResult)];
                 } else {
                     return res;
                 }
             },
             handleSearch () {
-                // 获取原始数据
+                // Get raw data
                 this.tableData = nCopy(this.nData);
-                // 获取搜索后的数据
+                // Get the searched data
                 this.tableData = this.search(this.tableData, this.nSearchVal);
-                // 获取搜索后的长度
+                // Get the length after searching
                 this.pageCount = this.tableData.length;
-                // 给tmpData赋值为搜索后的数据
+                // Assign tmpData with the searched data
                 this.tmpData = nCopy(this.tableData);
-                // 展示默认行数的数据
+                // Display data with default number of rows
                 this.tableData.splice(this.pageSize, this.pageCount);
-                // 切换到第一页
+                // Switch to the first page
                 this.pageCurrent = 1;
             },
-            // 删除数据
+            // delete data
             del (id) {
                 this.axios.delete(this.Global.serverSrc + this.apiService + '/' + id).then(
                     res => {
                         if (res.data['status'] === true) {
                             this.tableData.splice(this.delIndex, 1);
-                            this.$Message.success('删除成功！');
+                            this.$Message.success('successfully deleted');
                             this.tableList();
                         } else {
                             this.nError('Delete Failure', res.data['message']);
@@ -363,7 +363,7 @@
                     res => {
                         if (res.data['status'] === true) {
                             this.tableData.splice(this.delIndex, 1);
-                            this.$Message.success('Kill成功！');
+                            this.$Message.success('Kill success！');
                             this.tableList();
                         } else {
                             this.nError('Delete Failure', res.data['message']);
@@ -379,14 +379,14 @@
                         this.nError('Delete Failure', errInfo);
                     });
             },
-            // 传递给父组件
+            // Pass to parent component
             getProduct () {
                 this.$emit('getProductEvent', this.productData, this.productId);
             },
             getTable () {
                 this.$emit('getTableEvent', this.tableData);
             },
-            // 传递选择的行数据给父组件
+            // Pass the selected row data to the parent component
             handleRowChange (currentRow) {
                 this.$emit('getRowEvent', currentRow);
             }

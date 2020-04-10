@@ -1,22 +1,22 @@
 <template>
     <div>
         <common-table :cColumns="cColumns" :apiService="apiService" @getProductEvent="getProductEvent" :productShow="false" ref="childrenMethods">
-            <Button slot="create" type="primary" @click="add('formValidate')">创建角色</Button>
+            <Button slot="create" type="primary" @click="add('formValidate')">Create a Role</Button>
             <Modal slot="option" v-model="formView"  :title="optionTypeName">
                 <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="60">
-                    <FormItem label="角色名" prop="name">
-                        <Input v-model="formValidate.name" placeholder="输入用户名"></Input>
+                    <FormItem label="Role Name" prop="name">
+                        <Input v-model="formValidate.name" placeholder="Enter your user name"></Input>
                     </FormItem>
-                    <FormItem label="描述" prop="description">
-                        <Input v-model="formValidate.description" placeholder="输入描述"></Input>
+                    <FormItem label="description" prop="description">
+                        <Input v-model="formValidate.description" placeholder="Enter description"></Input>
                     </FormItem>
-                    <FormItem label="标识" prop="tag">
+                    <FormItem label="Logo" prop="tag">
                         <InputNumber v-model="formValidate.tag" :readonly="readonly" :min="20"></InputNumber>
                     </FormItem>
                 </Form>
                 <div slot="footer">
-                    <Button type="ghost" @click="handleReset('formValidate')" style="margin-left: 8px">重置</Button>
-                    <Button type="primary" @click="handleSubmit('formValidate')">提交</Button>
+                    <Button type="ghost" @click="handleReset('formValidate')" style="margin-left: 8px">Reset</Button>
+                    <Button type="primary" @click="handleSubmit('formValidate')">submit</Button>
                 </div>
             </Modal>
         </common-table>
@@ -32,10 +32,10 @@
         data () {
             return {
                 apiService: 'role',
-                // 删除数据
+                // delete data
                 delId: '',
                 delIndex: '',
-                // 编辑数据
+                // Edit data
                 formView: false,
                 id: '',
                 optionType: '',
@@ -43,7 +43,7 @@
                 readonly: true,
                 cColumns: [
                     {
-                        title: '角色名',
+                        title: 'Role Name',
                         key: 'name',
                         sortable: true,
                         render: (h, params) => {
@@ -59,23 +59,23 @@
                         }
                     },
                     {
-                        title: '描述',
+                        title: 'description',
                         key: 'description',
                         sortable: true
                     },
                     {
-                        title: '标识',
+                        title: 'Logo',
                         key: 'tag',
                         sortable: true
                     },
                     {
-                        title: '操作',
+                        title: 'Action',
                         key: 'action',
                         width: 123,
                         align: 'center',
                         render: (h, params) => {
                             let buttonDisabled = false;
-                            // 默认角色不能编辑及删除
+                            // The default role cannot be edited and deleted
                             if ([0, 1, 2, 3, 4].indexOf(params.row.tag) > -1) {
                                 buttonDisabled = true;
                             }
@@ -93,17 +93,17 @@
                                         click: () => {
                                             this.formView = true;
                                             this.optionType = 'edit';
-                                            this.optionTypeName = '编辑';
+                                            this.optionTypeName = 'edit';
                                             this.id = params.row.id;
                                             this.formValidate = params.row;
                                             this.readonly = true;
                                         }
                                     }
-                                }, '编辑'),
+                                }, 'edit'),
                                 h('Poptip', {
                                     props: {
                                         confirm: true,
-                                        title: '确定要删除 ' + params.row.name + ' 吗?',
+                                        title: 'Are you sure you want to delete ' + params.row.name + ' ?',
                                         transfer: true,
                                         placement: 'top-end'
                                     },
@@ -121,13 +121,13 @@
                                             disabled: buttonDisabled,
                                             size: 'small'
                                         }
-                                    }, '删除')
+                                    }, 'delete')
                                 ])
                             ]);
                         }
                     }
                 ],
-                // 表单验证
+                // form Validation
                 formValidate: {
                     name: '',
                     description: '',
@@ -135,10 +135,10 @@
                 },
                 ruleValidate: {
                     name: [
-                        { required: true, message: '角色名不能为空', trigger: 'blur' }
+                        { required: true, message: 'Role name cannot be empty', trigger: 'blur' }
                     ],
                     description: [
-                        { required: true, message: '描述不能为空', trigger: 'blur' }
+                        { required: true, message: 'Description cannot be empty', trigger: 'blur' }
                     ]
                 }
             };
@@ -148,38 +148,38 @@
                 this.productData = productData;
                 this.productId = productId;
             },
-            // 调用子组件进行删除
+            // Call subcomponent to delete
             del () {
                 this.$refs.childrenMethods.del(this.delId);
             },
-            // 调用子组件进行数据刷新
+            // Call subcomponent to refresh data
             tableList () {
                 this.$refs.childrenMethods.tableList();
             },
-            // 调用子组件消息通知
+            // Call sub-component message notification
             nError (title, info) {
                 this.$refs.childrenMethods.nError(title, info);
             },
-            // 添加展示
+            // Add impression
             add (name) {
                 this.handleReset(name);
                 this.optionType = 'add';
-                this.optionTypeName = '添加';
+                this.optionTypeName = 'add to';
                 this.formView = true;
                 this.readonly = false;
             },
-            // 表单提
+            // form mention
             handleSubmit (name) {
                 this.$refs[name].validate((valid) => {
                     if (valid) {
-                        // 编辑
+                        // edit
                         if (this.optionType === 'edit') {
                             this.axios.put(this.Global.serverSrc + this.apiService + '/' + this.id,
                                 this.formValidate).then(
                                 res => {
                                     if (res.data['status'] === true) {
                                         this.formView = false;
-                                        this.$Message.success('成功！');
+                                        this.$Message.success('success！');
                                         this.tableList();
                                     } else {
                                         this.nError('Edit Failure', res.data['message']);
@@ -195,13 +195,13 @@
                                     this.nError('Edit Failure', errInfo);
                                 });
                         } else {
-                            // 添加
+                            // add to
                             this.axios.post(this.Global.serverSrc + this.apiService,
                                 this.formValidate).then(
                                 res => {
                                     if (res.data['status'] === true) {
                                         this.formView = false;
-                                        this.$Message.success('成功！');
+                                        this.$Message.success('success！');
                                         this.tableList();
                                     } else {
                                         this.nError('Add Failure', res.data['message']);
@@ -218,11 +218,11 @@
                                 });
                         }
                     } else {
-                        this.$Message.error('请检查表单数据！');
+                        this.$Message.error('Please check the form data！');
                     }
                 });
             },
-            // 表单重置
+            // Form reset
             handleReset (name) {
                 this.$refs[name].resetFields();
             }

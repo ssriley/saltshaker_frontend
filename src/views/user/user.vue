@@ -1,26 +1,26 @@
 <template>
     <div>
         <common-table :cColumns="cColumns" :apiService="apiService" :productShow="false" ref="childrenMethods">
-            <Button slot="create" type="primary" @click="add('formValidate')" v-show="access">创建用户</Button>
+            <Button slot="create" type="primary" @click="add('formValidate')" v-show="access">Create user</Button>
             <Modal slot="option" v-model="formView"  :title="optionTypeName" width="650px">
                 <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="60">
-                    <FormItem label="用户名" prop="username" v-show="access">
-                        <Input v-model="formValidate.username" placeholder="输入用户名"></Input>
+                    <FormItem label="username" prop="username" v-show="access">
+                        <Input v-model="formValidate.username" placeholder="Enter your user name"></Input>
                     </FormItem>
-                    <FormItem label="邮箱" prop="mail" v-show="access">
-                        <Input v-model="formValidate.mail" placeholder="输入你的邮箱"></Input>
+                    <FormItem label="email" prop="mail" v-show="access">
+                        <Input v-model="formValidate.mail" placeholder="enter email"></Input>
                     </FormItem>
-                    <FormItem label="角色" prop="role" v-show="access">
+                    <FormItem label="Role" prop="role" v-show="access">
                         <CheckboxGroup v-model="formValidate.role">
                             <Checkbox v-for="item in userInfo.role" :key="item.id" :label="item.id" v-if="item.tag != 1">{{item.name}}</Checkbox>
                         </CheckboxGroup>
                     </FormItem>
-                    <FormItem label="产品线">
+                    <FormItem label="product line">
                         <CheckboxGroup v-model="formValidate.product">
                             <Checkbox v-for="item in userInfo.product" :key="item.id" :label="item.id" @click.prevent.native="handleCheckProduct(item.id)">{{item.name}}</Checkbox>
                         </CheckboxGroup>
                     </FormItem>
-                    <FormItem label="组" prop="groups">
+                    <FormItem label="group" prop="groups">
                         <Transfer
                             :data="originGroup"
                             :target-keys="targetGroup"
@@ -47,8 +47,8 @@
                     </FormItem>
                 </Form>
                 <div slot="footer">
-                    <Button type="ghost" @click="handleReset('formValidate')" style="margin-left: 8px">重置</Button>
-                    <Button type="primary" @click="handleSubmit('formValidate')">提交</Button>
+                    <Button type="ghost" @click="handleReset('formValidate')" style="margin-left: 8px">Reset</Button>
+                    <Button type="primary" @click="handleSubmit('formValidate')">submit</Button>
                 </div>
             </Modal>
         </common-table>
@@ -64,10 +64,10 @@
         data () {
             return {
                 apiService: 'user',
-                // 删除数据
+                // delete data
                 delId: '',
                 delIndex: '',
-                // 编辑数据
+                // Edit data
                 formView: false,
                 id: '',
                 optionType: '',
@@ -86,7 +86,7 @@
                 },
                 cColumns: [
                     {
-                        title: '用户',
+                        title: 'user',
                         key: 'username',
                         sortable: true,
                         render: (h, params) => {
@@ -102,12 +102,12 @@
                         }
                     },
                     {
-                        title: '邮箱',
+                        title: 'email',
                         key: 'mail',
                         sortable: true
                     },
                     {
-                        title: '产品线',
+                        title: 'product line',
                         key: 'product',
                         sortable: true,
                         render: (h, params) => {
@@ -123,7 +123,7 @@
                         }
                     },
                     {
-                        title: '角色',
+                        title: 'Role',
                         key: 'role',
                         sortable: true,
                         render: (h, params) => {
@@ -166,7 +166,7 @@
                         }
                     },
                     {
-                        title: '组',
+                        title: 'group',
                         key: 'groups',
                         sortable: true,
                         render: (h, params) => {
@@ -193,7 +193,7 @@
                         }
                     },
                     {
-                        title: '操作',
+                        title: 'Action',
                         key: 'action',
                         width: 193,
                         align: 'center',
@@ -211,7 +211,7 @@
                                         click: () => {
                                             this.formView = true;
                                             this.optionType = 'edit';
-                                            this.optionTypeName = '编辑';
+                                            this.optionTypeName = 'edit';
                                             this.id = params.row.id;
                                             this.formValidate.username = params.row.username;
                                             this.formValidate.mail = params.row.mail;
@@ -227,11 +227,11 @@
                                             this.targetACL = params.row.acl.map(item => { return item.id; });
                                         }
                                     }
-                                }, '编辑'),
+                                }, 'edit'),
                                 h('Poptip', {
                                     props: {
                                         confirm: true,
-                                        title: '确定要删除 ' + params.row.username + ' 吗?',
+                                        title: 'Are you sure you want to delete ' + params.row.username + ' ?',
                                         transfer: true,
                                         placement: 'top-end'
                                     },
@@ -252,12 +252,12 @@
                                         style: {
                                             marginRight: '5px'
                                         }
-                                    }, '删除')
+                                    }, 'delete')
                                 ]),
                                 h('Poptip', {
                                     props: {
                                         confirm: true,
-                                        title: '确定要重置 ' + params.row.username + ' 密码吗?',
+                                        title: 'Are you sure you want to reset ' + params.row.username + ' Password?',
                                         transfer: true,
                                         placement: 'top-end'
                                     },
@@ -272,13 +272,13 @@
                                             type: 'default',
                                             size: 'small'
                                         }
-                                    }, '重置密码')
+                                    }, 'reset Password')
                                 ])
                             ]);
                         }
                     }
                 ],
-                // 表单验证
+                // form Validation
                 formValidate: {
                     username: '',
                     mail: '',
@@ -287,27 +287,27 @@
                 },
                 ruleValidate: {
                     username: [
-                        { required: true, message: '用户名不能为空', trigger: 'blur' }
+                        { required: true, message: 'username cannot be empty', trigger: 'blur' }
                     ],
                     mail: [
-                        { required: true, message: '邮箱不能为空', trigger: 'blur' },
-                        { type: 'email', message: '无效的邮箱格式', trigger: 'blur' }
+                        { required: true, message: 'E-mail can not be empty', trigger: 'blur' },
+                        { type: 'email', message: 'Invalid email format', trigger: 'blur' }
                     ],
                     product: [
-                        { required: true, type: 'array', min: 1, message: '至少选择一项', trigger: 'change' }
+                        { required: true, type: 'array', min: 1, message: 'Choose at least one', trigger: 'change' }
                     ]
                 },
-                // 穿梭框
+                // Shuttle frame
                 originGroup: [],
                 targetGroup: [],
-                titlesGroup: ['待加分组', '当前分组'],
+                titlesGroup: ['Group to be added', 'Current group'],
                 listStyleGroup: {
                     width: '250px',
                     height: '200px'
                 },
                 originACL: [],
                 targetACL: [],
-                titlesACL: ['待加ACL', '当前ACL'],
+                titlesACL: ['ACL to be added', 'Current ACL'],
                 listStyleACL: {
                     width: '250px',
                     height: '200px'
@@ -316,23 +316,23 @@
             };
         },
         methods: {
-            // 调用子组件进行删除
+            // Call subcomponent to delete
             del () {
                 this.$refs.childrenMethods.del(this.delId);
             },
-            // 调用子组件进行数据刷新
+            // Call subcomponent to refresh data
             tableList () {
                 this.$refs.childrenMethods.tableList();
             },
-            // 调用子组件消息通知
+            // Call sub-component message notification
             nError (title, info) {
                 this.$refs.childrenMethods.nError(title, info);
             },
-            // 添加展示
+            // Add impression
             add (name) {
                 this.handleReset(name);
                 this.optionType = 'add';
-                this.optionTypeName = '添加';
+                this.optionTypeName = 'add to';
                 this.formView = true;
                 this.originGroup = [];
                 this.targetGroup = [];
@@ -378,11 +378,11 @@
                         this.nError('Get Role Failure', errInfo);
                     });
             },
-            // 表单提
+            // form mention
             handleSubmit (name) {
                 this.$refs[name].validate((valid) => {
                     if (valid) {
-                        // 编辑
+                        // edit
                         let postData = {
                             username: this.formValidate.username,
                             mail: this.formValidate.mail,
@@ -397,7 +397,7 @@
                                 res => {
                                     if (res.data['status'] === true) {
                                         this.formView = false;
-                                        this.$Message.success('成功！');
+                                        this.$Message.success('success！');
                                         this.tableList();
                                     } else {
                                         this.nError('Edit Failure', res.data['message']);
@@ -413,13 +413,13 @@
                                     this.nError('Edit Failure', errInfo);
                                 });
                         } else {
-                            // 添加
+                            // add to
                             this.axios.post(this.Global.serverSrc + this.apiService,
                                 postData).then(
                                 res => {
                                     if (res.data['status'] === true) {
                                         this.formView = false;
-                                        this.$Message.success('成功！');
+                                        this.$Message.success('success！');
                                         this.tableList();
                                     } else {
                                         this.nError('Add Failure', res.data['message']);
@@ -436,7 +436,7 @@
                                 });
                         }
                     } else {
-                        this.$Message.error('请检查表单数据！');
+                        this.$Message.error('Please check the form data！');
                     }
                 });
             },
@@ -444,7 +444,7 @@
                 this.axios.get(this.Global.serverSrc + this.apiService + '/reset/' + id).then(
                     res => {
                         if (res.data['status'] === true) {
-                            this.$Message.success('成功！');
+                            this.$Message.success('success！');
                         } else {
                             this.nError('Reset Password Failure', res.data['message']);
                         }
@@ -459,11 +459,11 @@
                         this.nError('Reset Password Failure', errInfo);
                     });
             },
-            // 表单重置
+            // Form reset
             handleReset (name) {
                 this.$refs[name].resetFields();
             },
-            // 穿梭框获取对应产品线的组信息
+            // Shuttle frame to get group information of corresponding product line
             getOriginGroup (product) {
                 this.axios.get(this.Global.serverSrc + 'groups?product_id=' + product).then(
                     res => {
@@ -472,7 +472,7 @@
                                 this.originGroup.push({
                                     key: res.data['data'][i]['id'],
                                     label: res.data['data'][i]['name'],
-                                    // 用于删除对应产品线的组
+                                    // Used to delete the group corresponding to the product line
                                     product: product
                                 });
                             }
@@ -495,7 +495,7 @@
                         }
                     });
             },
-            // 穿梭框获取对应产品线的ACL信息
+            // Shuttle frame to get ACL information of corresponding product line
             getOriginACL (product) {
                 this.axios.get(this.Global.serverSrc + 'acl?product_id=' + product).then(
                     res => {
@@ -521,7 +521,7 @@
                         this.nError('Get ACL Failure', errInfo);
                     });
             },
-            // 处理穿梭框
+            // Handling shuttle frame
             handleChangeGroup (newTargetGroup) {
                 this.targetGroup = newTargetGroup;
             },
@@ -534,30 +534,30 @@
             rendersACL (item) {
                 return item.label;
             },
-            // 选择不同产品线时候,对应的组 ACL 跟着变化
+            // When selecting different product lines, the corresponding group ACL changes accordingly
             handleCheckProduct (product) {
-                // 去除勾选
+                // Uncheck
                 if (this.formValidate.product.includes(product)) {
                     this.formValidate.product.splice(this.formValidate.product.indexOf(product), 1);
-                    // 组的操作
+                    // Group operations
                     for (let i = this.originGroup.length - 1; i >= 0; i--) {
                         if (this.originGroup[i]['product'] === product) {
-                            // 右边组删除
+                            // Right group delete
                             if (this.targetGroup.includes(this.originGroup[i]['key'])) {
                                 this.targetGroup.splice(this.targetGroup.indexOf(this.originGroup[i]['key']), 1);
                             }
-                            // 左边组删除
+                            // Left group delete
                             this.originGroup.splice(i, 1);
                         }
                     }
-                    // ACL的操作
+                    // ACL Operation
                     for (let i = this.originACL.length - 1; i >= 0; i--) {
                         if (this.originACL[i]['product'] === product) {
-                            // 右边ACL删除
+                            // Right ACL delete
                             if (this.targetACL.includes(this.originACL[i]['key'])) {
                                 this.targetACL.splice(this.targetACL.indexOf(this.originACL[i]['key']), 1);
                             }
-                            // 左边ACL删除
+                            // Left ACL delete
                             this.originACL.splice(i, 1);
                         }
                     }

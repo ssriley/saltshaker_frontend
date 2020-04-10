@@ -40,7 +40,7 @@ export default {
         nError (title, info) {
             this.$Notice.error({
                 title: title,
-                // 替换<>避免被解析为html标签
+                // Replace <> to avoid being parsed as html tags
                 desc: info.toString().replace(/<|>/g, ''),
                 duration: 10
             });

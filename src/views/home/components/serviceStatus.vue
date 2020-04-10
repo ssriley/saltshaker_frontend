@@ -12,12 +12,12 @@ export default {
             jobData: this.tableList(),
             columns: [
                 {
-                    title: '服务',
+                    title: 'service',
                     key: 'name',
                     sortable: true
                 },
                 {
-                    title: '状态',
+                    title: 'status',
                     key: 'status',
                     sortable: true,
                     render: (h, params) => {
@@ -81,7 +81,7 @@ export default {
         nError (title, info) {
             this.$Notice.error({
                 title: title,
-                // 替换<>避免被解析为html标签
+                // Replace <> to avoid being parsed as html tags
                 desc: info.toString().replace(/<|>/g, ''),
                 duration: 10
             });

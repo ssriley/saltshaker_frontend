@@ -11,7 +11,7 @@ export default {
         name: '姓名',
         company: '公司',
         btnText: '点击查看模态框',
-        modalText: '在这里你可以看到iview模态框默认的确定和取消按钮会切换语言',
+        modalText: '在这里你可以看到iview模态框默认的确定和cancel按钮会切换语言',
         poptip: '国际化的气泡提示',
         showPoptipText: '点击显示气泡提示'
     },
@@ -27,7 +27,7 @@ export default {
         name: '姓名',
         company: '公司',
         btnText: '點擊查看模態框',
-        modalText: '在這裡你可以看到iview模態框默認的確定和取消按鈕會切換語言',
+        modalText: '在這裡你可以看到iview模態框默認的確定和cancel按鈕會切換語言',
         poptip: '國際化的氣泡提示',
         showPoptipText: '點擊顯示氣泡提示'
     },

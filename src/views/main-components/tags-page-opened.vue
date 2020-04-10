@@ -7,12 +7,12 @@
         <div class="close-all-tag-con">
             <Dropdown transfer @on-click="handleTagsOption">
                 <Button size="small" type="primary">
-                    标签选项
+                    Label options
                     <Icon type="arrow-down-b"></Icon>
                 </Button>
                 <DropdownMenu slot="list">
-                    <DropdownItem name="clearAll">关闭所有</DropdownItem>
-                    <DropdownItem name="clearOthers">关闭其他</DropdownItem>
+                    <DropdownItem name="clearAll">Close all</DropdownItem>
+                    <DropdownItem name="clearOthers">Close other</DropdownItem>
                 </DropdownMenu>
             </Dropdown>
         </div>
@@ -148,13 +148,13 @@ export default {
         },
         moveToView (tag) {
             if (tag.offsetLeft < -this.tagBodyLeft) {
-                // 标签在可视区域左侧
+                // The label is on the left side of the viewable area
                 this.tagBodyLeft = -tag.offsetLeft + 10;
             } else if (tag.offsetLeft + 10 > -this.tagBodyLeft && tag.offsetLeft + tag.offsetWidth < -this.tagBodyLeft + this.$refs.scrollCon.offsetWidth - 100) {
-                // 标签在可视区域
+                // Label in viewable area
                 this.tagBodyLeft = Math.min(0, this.$refs.scrollCon.offsetWidth - 100 - tag.offsetWidth - tag.offsetLeft - 20);
             } else {
-                // 标签在可视区域右侧
+                // The label is on the right side of the viewable area
                 this.tagBodyLeft = -(tag.offsetLeft - (this.$refs.scrollCon.offsetWidth - 100 - tag.offsetWidth) + 20);
             }
         }
@@ -168,7 +168,7 @@ export default {
                     this.moveToView(tag);
                 }
             });
-        }, 1); // 这里不设定时器就会有偏移bug
+        }, 1); // If there is no timer, there will be an offset bug
         this.tagsCount = this.tagsList.length;
     },
     watch: {

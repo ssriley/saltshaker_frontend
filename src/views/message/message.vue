@@ -6,13 +6,13 @@
     <div class="message-main-con">
         <div class="message-mainlist-con">
             <div>
-                <Button @click="setCurrentMesType('unread')" size="large" long type="text"><transition name="mes-current-type-btn"><Icon v-show="currentMessageType === 'unread'" type="checkmark"></Icon></transition><span class="mes-type-btn-text">未读消息</span><Badge class="message-count-badge-outer" class-name="message-count-badge" :count="unreadCount"></Badge></Button>
+                <Button @click="setCurrentMesType('unread')" size="large" long type="text"><transition name="mes-current-type-btn"><Icon v-show="currentMessageType === 'unread'" type="checkmark"></Icon></transition><span class="mes-type-btn-text">Unread message</span><Badge class="message-count-badge-outer" class-name="message-count-badge" :count="unreadCount"></Badge></Button>
             </div>
             <div>
-                <Button @click="setCurrentMesType('hasread')" size="large" long type="text"><transition name="mes-current-type-btn"><Icon v-show="currentMessageType === 'hasread'" type="checkmark"></Icon></transition><span class="mes-type-btn-text">已读消息</span><Badge class="message-count-badge-outer" class-name="message-count-badge" :count="hasreadCount"></Badge></Button>
+                <Button @click="setCurrentMesType('hasread')" size="large" long type="text"><transition name="mes-current-type-btn"><Icon v-show="currentMessageType === 'hasread'" type="checkmark"></Icon></transition><span class="mes-type-btn-text">Read message</span><Badge class="message-count-badge-outer" class-name="message-count-badge" :count="hasreadCount"></Badge></Button>
             </div>
             <div>
-                <Button @click="setCurrentMesType('recyclebin')" size="large" long type="text"><transition name="mes-current-type-btn"><Icon v-show="currentMessageType === 'recyclebin'" type="checkmark"></Icon></transition><span class="mes-type-btn-text">回收站</span><Badge class="message-count-badge-outer" class-name="message-count-badge" :count="recyclebinCount"></Badge></Button>
+                <Button @click="setCurrentMesType('recyclebin')" size="large" long type="text"><transition name="mes-current-type-btn"><Icon v-show="currentMessageType === 'recyclebin'" type="checkmark"></Icon></transition><span class="mes-type-btn-text">Recycle bin</span><Badge class="message-count-badge-outer" class-name="message-count-badge" :count="recyclebinCount"></Badge></Button>
             </div>
         </div>
         <div class="message-content-con">
@@ -24,7 +24,7 @@
             <transition name="back-message-list">
                 <div v-if="!showMesTitleList" class="message-view-content-con">
                     <div class="message-content-top-bar">
-                        <span class="mes-back-btn-con"><Button type="text" @click="backMesTitleList"><Icon type="chevron-left"></Icon>&nbsp;&nbsp;返回</Button></span>
+                        <span class="mes-back-btn-con"><Button type="text" @click="backMesTitleList"><Icon type="chevron-left"></Icon>&nbsp;&nbsp;return</Button></span>
                         <h3 class="mes-title">{{ mes.title }}</h3>
                     </div>
                     <p class="mes-time-con"><Icon type="android-time"></Icon>&nbsp;&nbsp;{{ mes.time }}</p>
@@ -52,7 +52,7 @@ export default {
                         this.$store.commit('setMessageCount', this.unreadMesList.length);
                     }
                 }
-            }, '标为已读');
+            }, 'Mark as read');
         };
         const deleteMesBtn = (h, params) => {
             return h('Button', {
@@ -65,7 +65,7 @@ export default {
                         this.recyclebinList.unshift(this.hasreadMesList.splice(params.index, 1)[0]);
                     }
                 }
-            }, '删除');
+            }, 'delete');
         };
         const restoreBtn = (h, params) => {
             return h('Button', {
@@ -77,7 +77,7 @@ export default {
                         this.hasreadMesList.unshift(this.recyclebinList.splice(params.index, 1)[0]);
                     }
                 }
-            }, '还原');
+            }, 'reduction');
         };
         return {
             currentMesList: [],
@@ -89,7 +89,7 @@ export default {
             unreadCount: 0,
             hasreadCount: 0,
             recyclebinCount: 0,
-            noDataText: '暂无未读消息',
+            noDataText: 'No unread messages',
             mes: {
                 title: '',
                 time: '',
@@ -188,13 +188,13 @@ export default {
             }
             this.currentMessageType = type;
             if (type === 'unread') {
-                this.noDataText = '暂无未读消息';
+                this.noDataText = 'No unread messages';
                 this.currentMesList = this.unreadMesList;
             } else if (type === 'hasread') {
-                this.noDataText = '暂无已读消息';
+                this.noDataText = 'No read messages yet';
                 this.currentMesList = this.hasreadMesList;
             } else {
-                this.noDataText = '回收站无消息';
+                this.noDataText = 'No message in recycle bin';
                 this.currentMesList = this.recyclebinList;
             }
         },
@@ -202,11 +202,11 @@ export default {
             // you can write ajax request here to get message content
             let mesContent = '';
             switch (this.currentMessageType + index) {
-                case 'unread0': mesContent = '开发中，敬请期待'; break;
-                case 'unread1': mesContent = '开发中，敬请期待'; break;
-                case 'unread2': mesContent = '开发中，敬请期待'; break;
-                case 'hasread0': mesContent = '开发中，敬请期待'; break;
-                default: mesContent = '开发中，敬请期待'; break;
+                case 'unread0': mesContent = 'In development，Stay Tuned'; break;
+                case 'unread1': mesContent = 'In development，Stay Tuned'; break;
+                case 'unread2': mesContent = 'In development，Stay Tuned'; break;
+                case 'hasread0': mesContent = 'In development，Stay Tuned'; break;
+                default: mesContent = 'In development，Stay Tuned'; break;
             }
             this.mes.content = mesContent;
         }
@@ -214,27 +214,27 @@ export default {
     mounted () {
         this.currentMesList = this.unreadMesList = [
             {
-                title: '开发中，敬请期待',
+                title: 'In development，Stay Tuned',
                 time: 1531962537000
             },
             {
-                title: '开发中，敬请期待',
+                title: 'In development，Stay Tuned',
                 time: 1531962537000
             },
             {
-                title: '开发中，敬请期待',
+                title: 'In development，Stay Tuned',
                 time: 1531962537000
             }
         ];
         this.hasreadMesList = [
             {
-                title: '开发中，敬请期待',
+                title: 'In development，Stay Tuned',
                 time: 1531962537000
             }
         ];
         this.recyclebinList = [
             {
-                title: '开发中，敬请期待',
+                title: 'In development，Stay Tuned',
                 time: 1506390106000
             }
         ];

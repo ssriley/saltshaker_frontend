@@ -20,7 +20,7 @@
                         <Card dis-hover>
                             <p slot="title" class="card-title">
                                 <Icon type="android-map"></Icon>
-                                Minion 状态
+                                Minion Status
                             </p>
                             <div class="data-source-row">
                                 <minion-status :productId="productId"></minion-status>
@@ -37,7 +37,7 @@
                             :end-val="count.minion"
                             iconType="android-apps"
                             color="#2d8cf0"
-                            intro-text="Minion总数"
+                            intro-text="Minion Total"
                         ></infor-card>
                     </Col>
                     <Col :xs="24" :sm="12" :md="6" :style="{marginBottom: '10px'}">
@@ -47,7 +47,7 @@
                             iconType="ios-eye"
                             color="#64d572"
                             :iconSize="50"
-                            intro-text="活跃Job总数"
+                            intro-text="Total active jobs"
                         ></infor-card>
                     </Col>
                     <Col :xs="24" :sm="12" :md="6" :style="{marginBottom: '10px'}">
@@ -56,7 +56,7 @@
                             :end-val="count.event"
                             iconType="upload"
                             color="#ffd572"
-                            intro-text="事件总数"
+                            intro-text="Total events"
                         ></infor-card>
                     </Col>
                     <Col :xs="24" :sm="12" :md="6" :style="{marginBottom: '10px'}">
@@ -65,7 +65,7 @@
                             :end-val="count.log"
                             iconType="shuffle"
                             color="#f25e43"
-                            intro-text="日志总数"
+                            intro-text="Total number of logs"
                         ></infor-card>
                     </Col>
                 </Row>
@@ -73,7 +73,7 @@
                     <Card :padding="0" dis-hover>
                         <p slot="title" class="card-title">
                             <Icon type="ios-stopwatch-outline"></Icon>
-                            周期 Job
+                            Scheduled Job
                         </p>
                         <div class="map-con">
                             <Col span="24">
@@ -89,7 +89,7 @@
                 <Card :padding="0" dis-hover>
                     <p slot="title" class="card-title">
                         <Icon type="android-map"></Icon>
-                        服务状态
+                        service status
                     </p>
                     <div class="service-status">
                         <Col span="24">
@@ -102,7 +102,7 @@
                 <Card dis-hover>
                     <p slot="title" class="card-title">
                         <Icon type="ios-pulse-strong"></Icon>
-                        Grains 信息统计
+                        Grains Information Statistics
                         <Dropdown style="float: right;" placement="bottom-end">
                             <a href="javascript:void(0)">
                                 {{itemName}}
@@ -110,28 +110,28 @@
                             </a>
                             <DropdownMenu slot="list">
                                 <DropdownItem>
-                                    <div @click="changedItem('os', '操作系统版本')">操作系统版本</div>
+                                    <div @click="changedItem('os', 'Operating system version')">Operating system version</div>
                                 </DropdownItem>
                                 <DropdownItem>
-                                    <div @click="changedItem('saltversion', 'Salt Minion版本')">Salt Minion版本</div>
+                                    <div @click="changedItem('saltversion', 'Salt Minion Version')">Salt Minion Version</div>
                                 </DropdownItem>
                                 <DropdownItem>
-                                    <div @click="changedItem('kernelrelease', '内核')">内核</div>
+                                    <div @click="changedItem('kernelrelease', 'Kernel')">Kernel</div>
                                 </DropdownItem>
                                 <DropdownItem>
-                                    <div @click="changedItem('manufacturer', '服务器品牌')">服务器品牌</div>
+                                    <div @click="changedItem('manufacturer', 'Server brand')">Server brand</div>
                                 </DropdownItem>
                                 <DropdownItem>
-                                    <div @click="changedItem('productname', '服务器型号')">服务器型号</div>
+                                    <div @click="changedItem('productname', 'Server model')">Server model</div>
                                 </DropdownItem>
                                 <DropdownItem>
-                                    <div @click="changedItem('num_cpus', 'CPU数')">CPU数</div>
+                                    <div @click="changedItem('num_cpus', 'Number of CPU')">Number of CPU</div>
                                 </DropdownItem>
                                 <DropdownItem>
-                                    <div @click="changedItem('cpu_model', 'CPU类型')">CPU类型</div>
+                                    <div @click="changedItem('cpu_model', 'CPU type')">CPU type</div>
                                 </DropdownItem>
                                 <DropdownItem>
-                                    <div @click="changedItem('mem_total', '内存大小')">内存大小</div>
+                                    <div @click="changedItem('mem_total', 'memory size')">memory size</div>
                                 </DropdownItem>
                             </DropdownMenu>
                         </Dropdown>
@@ -172,7 +172,7 @@ export default {
             productData: this.productList(),
             productId: '',
             item: 'os',
-            itemName: '操作系统版本'
+            itemName: 'Operating system version'
         };
     },
     watch: {
@@ -230,11 +230,11 @@ export default {
                     this.nError('Get Title Failure', errInfo);
                 });
         },
-        // 重新定义错误消息
+        // Redefine the error message
         nError (title, info) {
             this.$Notice.error({
                 title: title,
-                // 替换<>避免被解析为html标签
+                // Replace <> to avoid being parsed as html tags
                 desc: info.toString().replace(/<|>/g, ''),
                 duration: 10
             });

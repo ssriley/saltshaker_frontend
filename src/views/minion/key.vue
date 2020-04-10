@@ -11,9 +11,9 @@
                     <p v-for="item in rowData">{{item.minions_id}}</p>
                 </div>
             </Modal>
-            <Button v-show="buttonShow" slot="accept" @click="handleSelectAll('全部接受','accept')">全部接受</Button>
-            <Button v-show="buttonShow" slot="reject" @click="handleSelectAll('全部拒绝','reject')">全部拒绝</Button>
-            <Button v-show="buttonShow" slot="delete" @click="handleSelectAll('全部删除','delete')">全部删除</Button>
+            <Button v-show="buttonShow" slot="accept" @click="handleSelectAll('Accept all','accept')">'Accept all'</Button>
+            <Button v-show="buttonShow" slot="reject" @click="handleSelectAll('Reject all','reject')">Reject all</Button>
+            <Button v-show="buttonShow" slot="delete" @click="handleSelectAll('Delete all','delete')">Delete all</Button>
         </common-table>
     </div>
 </template>
@@ -36,7 +36,7 @@
                 rowData: [],
                 action: '',
                 buttonShow: false,
-                // 删除数据
+                // delete data
                 delId: '',
                 delIndex: '',
                 result: '',
@@ -52,7 +52,7 @@
                         sortable: true
                     },
                     {
-                        title: '状态',
+                        title: 'Status',
                         key: 'minions_status',
                         sortable: true,
                         render: (h, params) => {
@@ -73,7 +73,7 @@
                         }
                     },
                     {
-                        title: '接受 Key',
+                        title: 'accept Key',
                         sortable: true,
                         align: 'center',
                         render: (h, params) => {
@@ -85,7 +85,7 @@
                                 h('Poptip', {
                                     props: {
                                         confirm: true,
-                                        title: '确定要接受 ' + params.row.minions_id + ' 吗?',
+                                        title: 'Sure to accept ' + params.row.minions_id + ' ?',
                                         transfer: true,
                                         placement: 'top-end'
                                     },
@@ -104,13 +104,13 @@
                                             disabled: buttonDisabled,
                                             size: 'small'
                                         }
-                                    }, '接受')
+                                    }, 'accept')
                                 ])
                             ]);
                         }
                     },
                     {
-                        title: '拒绝 Key',
+                        title: 'Refuse Key',
                         sortable: true,
                         align: 'center',
                         render: (h, params) => {
@@ -122,7 +122,7 @@
                                 h('Poptip', {
                                     props: {
                                         confirm: true,
-                                        title: '确定要拒绝 ' + params.row.minions_id + ' 吗?',
+                                        title: 'Are you sure to reject' + params.row.minions_id + ' ?',
                                         transfer: true,
                                         placement: 'top-end'
                                     },
@@ -141,13 +141,13 @@
                                             disabled: buttonDisabled,
                                             size: 'small'
                                         }
-                                    }, '拒绝')
+                                    }, 'Refuse')
                                 ])
                             ]);
                         }
                     },
                     {
-                        title: '删除 Key',
+                        title: 'delete Key',
                         sortable: true,
                         align: 'center',
                         render: (h, params) => {
@@ -155,7 +155,7 @@
                                 h('Poptip', {
                                     props: {
                                         confirm: true,
-                                        title: '确定要删除 ' + params.row.minions_id + ' 吗?',
+                                        title: 'Are you sure you want to delete ' + params.row.minions_id + ' ?',
                                         transfer: true,
                                         placement: 'top-end'
                                     },
@@ -174,7 +174,7 @@
                                             disabled: false,
                                             size: 'small'
                                         }
-                                    }, '删除')
+                                    }, 'delete')
                                 ])
                             ]);
                         }
@@ -195,11 +195,11 @@
                     this.buttonShow = false;
                 }
             },
-            // 调用子组件消息通知
+            // Call sub-component message notification
             nError (title, info) {
                 this.$refs.childrenMethods.nError(title, info);
             },
-            // 调用子组件进行数据刷新
+            // Call subcomponent to refresh data
             tableList () {
                 this.$refs.childrenMethods.tableList();
             },
@@ -207,18 +207,18 @@
                 this.key = true;
                 this.title = title;
                 this.action = action;
-                // 获取minion id
+                // Obtain minion id
                 this.minion = [];
                 for (var i = 0; i < this.rowData.length; i++) {
                     this.minion.push(this.rowData[i]['minions_id']);
                 }
             },
-            // 处理确定
+            // Processing OK
             handleSubmit () {
                 this.keyManage(this.action);
                 this.action = '';
             },
-            // key管理
+            // key management
             keyManage (action) {
                 let postData = {
                     'minion_id': this.minion
@@ -229,7 +229,7 @@
                         this.buttonShow = false;
                         if (res.data['status'] === true) {
                             this.formView = false;
-                            this.$Message.success('成功！');
+                            this.$Message.success('success！');
                             this.tableList();
                         } else {
                             this.nError(action.substring(0, 1).toUpperCase() + action.substring(1) + ' Failure', res.data['message']);

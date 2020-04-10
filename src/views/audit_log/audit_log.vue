@@ -15,7 +15,7 @@
                 apiService: 'log',
                 cColumns: [
                     {
-                        title: '用户',
+                        title: 'User',
                         key: 'user',
                         sortable: true
                     },
@@ -25,17 +25,17 @@
                         sortable: true
                     },
                     {
-                        title: '操作对象',
+                        title: 'Operation Target',
                         key: 'action_object',
                         sortable: true
                     },
                     {
-                        title: '操作类型',
+                        title: 'Action Performed',
                         key: 'action_type',
                         sortable: true
                     },
                     {
-                        title: '时间',
+                        title: 'Time',
                         key: 'time',
                         sortable: true
                     }

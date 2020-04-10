@@ -73,7 +73,7 @@ export default {
             let menuTheme = themeFile.substr(0, 1);
             let mainTheme = themeFile.substr(-1, 1);
             if (menuTheme === 'b') {
-                // 黑色菜单
+                // Black Theme
                 this.$store.commit('changeMenuTheme', 'dark');
                 menuTheme = 'dark';
             } else {
@@ -152,7 +152,7 @@ export default {
             this.$store.commit('changeMenuTheme', 'light');
             this.$store.commit('changeMainTheme', 'g');
         }
-        // 根据用户设置主题
+        // Set theme based on user
         if (this.$store.state.app.themeColor !== 'b') {
             let stylesheetPath = path + this.$store.state.app.themeColor + '.css';
             let themeLink = document.querySelector('link[name="theme"]');

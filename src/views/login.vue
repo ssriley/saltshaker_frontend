@@ -8,63 +8,63 @@
             <Card :bordered="false">
                 <p slot="title">
                     <Icon type="log-in"></Icon>
-                    欢迎使用
+                    welcome
                 </p>
                 <div class="form-con">
                     <Tabs v-model="tab" :style="[h]">
-                        <TabPane label="登录" name="login">
+                        <TabPane label="log in" name="login">
                             <Form ref="loginForm" :model="form" :rules="rules">
                                 <FormItem prop="userName">
-                                    <Input v-model="form.userName" placeholder="请输入用户名">
+                                    <Input v-model="form.userName" placeholder="Enter your user name">
                                         <span slot="prepend">
                                             <Icon :size="16" type="person"></Icon>
                                         </span>
                                     </Input>
                                 </FormItem>
                                 <FormItem prop="password">
-                                    <Input type="password" v-model="form.password" placeholder="请输入密码">
+                                    <Input type="password" v-model="form.password" placeholder="Please enter the password">
                                         <span slot="prepend">
                                             <Icon :size="16" type="locked"></Icon>
                                         </span>
                                     </Input>
                                 </FormItem>
                                 <FormItem>
-                                    <Button @click="handleSubmit" type="primary" long>登录</Button>
+                                    <Button @click="handleSubmit" type="primary" long>log in</Button>
                                 </FormItem>
                             </Form>
                         </TabPane>
-                        <TabPane label="注册" name="register">
+                        <TabPane label="Sign Up" name="register">
                             <Form ref="registerForm" :model="registerForm" :rules="registerRules">
                                 <FormItem prop="userName">
-                                    <Input v-model="registerForm.userName" placeholder="请输入用户名">
+                                    <Input v-model="registerForm.userName" placeholder="Enter your user name">
                                         <span slot="prepend">
                                             <Icon :size="16" type="person"></Icon>
                                         </span>
                                     </Input>
                                 </FormItem>
                                  <FormItem prop="mail">
-                                     <Input v-model="registerForm.mail" placeholder="请输入邮箱">
+                                     <Input v-model="registerForm.mail" placeholder="Enter your email">
                                         <span slot="prepend">
                                             <Icon :size="16" type="email"></Icon>
                                         </span>
                                      </Input>
                                 </FormItem>
                                 <FormItem prop="password">
-                                    <Input type="password" v-model="registerForm.password" placeholder="请输入密码，至少6位字符" >
+                                    <Input type="password" v-model="registerForm.password" placeholder="Please enter the password，At least 6 characters" >
                                         <span slot="prepend">
                                             <Icon :size="16" type="locked"></Icon>
                                         </span>
                                     </Input>
                                 </FormItem>
                                 <FormItem prop="rePassword">
-                                    <Input type="password" v-model="registerForm.rePassword" placeholder="请再次输入密码" >
+                                    <Input type="password" v-model="registerForm.rePassword" placeholder="Please enter the password again" >
                                         <span slot="prepend">
                                             <Icon :size="16" type="unlocked"></Icon>
                                         </span>
                                     </Input>
                                 </FormItem>
                                 <FormItem>
-                                    <Button @click="handleRegister" type="primary" long>注册</Button>
+                                    <Button @click="handleRegister" type="primary" long>register</Button>
                                 </FormItem>
                             </Form>
                         </TabPane>
@@ -82,7 +82,7 @@ export default {
     data () {
         const valideRePassword = (rule, value, callback) => {
             if (value !== this.registerForm.password) {
-                callback(new Error('两次输入密码不一致'));
+                callback(new Error('Two passwords are inconsistent'));
             } else {
                 callback();
             }
@@ -100,10 +100,10 @@ export default {
             },
             rules: {
                 userName: [
-                    { required: true, message: '用户名不能为空', trigger: 'blur' }
+                    { required: true, message: 'Username can not be empty', trigger: 'blur' }
                 ],
                 password: [
-                    { required: true, message: '密码不能为空', trigger: 'blur' }
+                    { required: true, message: 'Password can not be empty', trigger: 'blur' }
                 ]
             },
             registerForm: {
@@ -113,19 +113,19 @@ export default {
             },
             registerRules: {
                 userName: [
-                    { required: true, message: '用户名不能为空', trigger: 'blur' }
+                    { required: true, message: 'Username can not be empty', trigger: 'blur' }
                 ],
                 password: [
-                    { required: true, message: '请输入密码', trigger: 'blur' },
-                    { min: 6, message: '请至少输入6个字符', trigger: 'blur' }
+                    { required: true, message: 'Please enter the password', trigger: 'blur' },
+                    { min: 6, message: 'Please enter at least 6 characters', trigger: 'blur' }
                 ],
                 rePassword: [
-                    { required: true, message: '请再次输入密码', trigger: 'blur' },
+                    { required: true, message: 'Please enter the password again', trigger: 'blur' },
                     { validator: valideRePassword, trigger: 'blur' }
                 ],
                 mail: [
-                    { required: true, message: '邮箱不能为空', trigger: 'blur' },
-                    { type: 'email', message: '无效的邮箱格式', trigger: 'blur' }
+                    { required: true, message: 'E-mail can not be empty', trigger: 'blur' },
+                    { type: 'email', message: 'Invalid email format', trigger: 'blur' }
                 ]
             }
         };
@@ -143,7 +143,7 @@ export default {
         handleSubmit () {
             this.$refs.loginForm.validate((valid) => {
                 if (valid) {
-                    // 使用rsa对密码进行加密
+                    // Use rsa to encrypt the password
                     let jse = new jsEncrypt();
                     jse.setPublicKey(this.publicKey);
                     let passwordRsa = jse.encrypt(this.form.password);
@@ -157,16 +157,16 @@ export default {
                             if (res.data['status'] === true) {
                                 let info = res.data['data'];
                                 Cookies.set('user', this.form.userName);
-                                // 后端返回过期时间,单位秒 转换成天
+                                // The backend returns the expiration time, which is converted into days in seconds
                                 let expireDays = info['token']['expires'] / 60 / 60 / 24;
                                 Cookies.set(info['token']['key'], info['token']['value'], { expires: expireDays });
                                 Cookies.set('tag', info['token']['key']);
                                 // Cookies.set('access', 0);
                                 // 设置UID
                                 this.$store.commit('setUserId', info['user']['uid']);
-                                // 存储在localStorage解决刷新页面vuex 的值消失的的问题
+                                // Stored in localStorage solves the problem that the value of vuex disappears when refreshing the page
                                 localStorage.user = info['user']['uid'];
-                                // 存储菜单信息
+                                // Store menu information
                                 localStorage.menu = info['user']['menu'];
                                 // this.$store.commit('setUsername', this.form.userName);
                                 // localStorage.username = this.form.userName;
@@ -174,7 +174,7 @@ export default {
                                     name: 'home_index'
                                 });
                             } else {
-                                this.nError('登录失败:', res.data['message']);
+                                this.nError('Login failed:', res.data['message']);
                             }
                         },
                         err => {
@@ -184,7 +184,7 @@ export default {
                             } catch (error) {
                                 errInfo = err;
                             }
-                            this.nError('登录失败:', errInfo);
+                            this.nError('Login failed:', errInfo);
                         });
                 }
             });
@@ -192,7 +192,7 @@ export default {
         handleRegister () {
             this.$refs.registerForm.validate((valid) => {
                 if (valid) {
-                    // 使用rsa对密码进行加密
+                    // Use rsa to encrypt the password
                     let jse = new jsEncrypt();
                     jse.setPublicKey(this.publicKey);
                     let passwordRsa = jse.encrypt(this.registerForm.password);
@@ -204,11 +204,11 @@ export default {
                     this.axios.post(this.Global.serverSrc + 'user/register', postData).then(
                         res => {
                             if (res.data['status'] === true) {
-                                this.$Message.success('注册成功！');
+                                this.$Message.success('registration success！');
                                 this.tab = 'login';
                                 this.$refs['registerForm'].resetFields();
                             } else {
-                                this.nError('注册失败:', res.data['message']);
+                                this.nError('registration failed:', res.data['message']);
                             }
                         },
                         err => {
@@ -218,12 +218,12 @@ export default {
                             } catch (error) {
                                 errInfo = err;
                             }
-                            this.nError('注册失败:', errInfo);
+                            this.nError('registration failed:', errInfo);
                         });
                 }
             });
         },
-        // 重新定义错误消息
+        // Redefine the error message
         nError (title, info) {
             this.$Notice.error({
                 title: title,
@@ -231,14 +231,14 @@ export default {
                 duration: 10
             });
         },
-        // 获取rsa 公钥
+        // Get rsa public key
         RSA () {
             this.axios.get(this.Global.serverSrc + 'rsa').then(
                 res => {
                     if (res.data['status'] === true) {
                         this.publicKey = res.data['data'];
                     } else {
-                        this.nError('加密失败:', res.data['message']);
+                        this.nError('Encryption failed:', res.data['message']);
                     }
                 },
                 err => {
@@ -248,7 +248,7 @@ export default {
                     } catch (error) {
                         errInfo = err;
                     }
-                    this.nError('加密失败:', errInfo);
+                    this.nError('Encryption failed:', errInfo);
                 });
         }
     }

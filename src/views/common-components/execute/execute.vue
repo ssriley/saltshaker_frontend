@@ -12,7 +12,7 @@
                             <Option v-for="item in productData" :value="item.id" :key="item.id">{{ item.name }}</Option>
                         </Select>
                         <div style="float: right;" >
-                            <Button type="primary" @click="refresh()">刷新</Button>
+                            <Button type="primary" @click="refresh()">Refresh</Button>
                         </div>
                     </Row>
                     <Row>
@@ -22,47 +22,47 @@
                         <Col span="24">
                             <Card dis-hover>
                                 <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="47">
-                                    <FormItem label="目标" prop="target">
+                                    <FormItem label="Target" prop="target">
                                         <CheckboxGroup v-model="formValidate.target">
                                             <Table size="small" width="100%"  border :columns="columnsTarget" :data="targetData" stripe></Table>
                                         </CheckboxGroup>
                                     </FormItem>
-                                    <FormItem label="命令" prop="command">
-                                        <Input v-model="formValidate.command" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="输入shell命令"></Input>
+                                    <FormItem label="Command" prop="command">
+                                        <Input v-model="formValidate.command" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="Enter Shell Command"></Input>
                                     </FormItem>
                                     <FormItem>
-                                        <Button type="primary" @click="handleSubmit('formValidate')">提交</Button>
-                                        <Button type="ghost" @click="handleReset('formValidate')">重置</Button>
+                                        <Button type="primary" @click="handleSubmit('formValidate')">Submit</Button>
+                                        <Button type="ghost" @click="handleReset('formValidate')">Reset</Button>
                                         <div style="float: right">
                                             <Poptip placement="top-end" width="700">
-                                                <Button type="ghost" @click="handleHistory">历史命令</Button>
+                                                <Button type="ghost" @click="handleHistory">History</Button>
                                                 <div class="api" slot="content">
                                                     <div style="padding-bottom: 5px">
-                                                        <Input v-model="searchConName" icon="search" @on-change="handleSearch" placeholder="请输入历史命令" style="width: 200px" />
+                                                        <Input v-model="searchConName" icon="search" @on-change="handleSearch" placeholder="Please enter the history command" style="width: 200px" />
                                                     </div>
                                                     <Table size="small" width="100%" height="190" border :columns="columnsHistory" :data="historyData" stripe></Table>
                                                 </div>
                                              </Poptip>
                                         </div>
                                     </FormItem>
-                                    <FormItem label="结果">
+                                    <FormItem label="Result">
                                         <Spin size="large" fix v-if="spinShow"></Spin>
                                         <Alert :type="summaryType">
                                             <ul>
                                                 <li>
-                                                    总数： {{result.total}}
+                                                    total： {{result.total}}
                                                 </li>
                                                 <li>
-                                                    成功： {{result.succeed}}
+                                                    succeed： {{result.succeed}}
                                                 </li>
                                                 <li>
-                                                    失败： {{result.failure}}
+                                                    failure： {{result.failure}}
                                                 </li>
                                                 <li>
-                                                    失败主机： {{result.failure_minion}}
+                                                    target： {{result.failure_minion}}
                                                 </li>
                                                 <li>
-                                                    命令： {{result.command}}
+                                                    command： {{result.command}}
                                                 </li>
                                             </ul>
                                         </Alert>
@@ -88,32 +88,32 @@ Minion: {{minion}}
             return {
                 productData: this.productList(),
                 productId: '',
-                // 执行命令的返回数据
+                // Execution command return data
                 result: '',
                 searchConName: '',
                 formValidate: {
                     command: '',
                     target: []
                 },
-                // 默认不显示结果信息
+                // The result information is not displayed by default
                 resultShow: false,
-                // 摘要信息样式
+                // Summary information style
                 summaryType: 'success',
-                // 等待返回结果
+                // Wait for the result
                 spinShow: false,
-                // 全选
+                // select all
                 target: [],
                 ruleValidate: {
                     command: [
-                        { required: true, message: '请输入命令', trigger: 'blur' }
+                        { required: true, message: 'Please enter the command', trigger: 'blur' }
                     ],
                     target: [
-                        { required: true, type: 'array', message: '请勾选主机或者分组', trigger: 'change' }
+                        { required: true, type: 'array', message: 'Please check the host or group', trigger: 'change' }
                     ]
                 },
                 columnsTarget: [
                     {
-                        title: '分组',
+                        title: 'Grouping',
                         key: 'name',
                         width: 200,
                         render: (h, params) => {
@@ -124,10 +124,10 @@ Minion: {{minion}}
                                     },
                                     nativeOn: {
                                         click: () => {
-                                            // 点击已经勾选的组,去除勾选的组及对应的minion
+                                            // Click on the checked group to remove the checked group and the corresponding minion
                                             if (this.formValidate.target.includes(params.row.name)) {
                                                 this.formValidate.target.splice(this.formValidate.target.indexOf(params.row.name), 1);
-                                                // 索引位置变化,采用逆向循环,达到数组去掉另一个数组元素的目的
+                                                // The index position changes, and a reverse loop is used to achieve the purpose of the array removing another array element
                                                 for (let i = this.formValidate.target.length - 1; i >= 0; i--) {
                                                     for (let m = params.row.minion.length - 1; m >= 0; m--) {
                                                         if (this.formValidate.target[i] === params.row.minion[m]) {
@@ -136,7 +136,7 @@ Minion: {{minion}}
                                                     }
                                                 }
                                             } else {
-                                                // 点击没有勾选的组,勾选上组及对应的minion
+                                                // Click the unchecked group, check the upper group and the corresponding minion
                                                 this.formValidate.target.push(params.row.name);
                                                 this.formValidate.target = this.formValidate.target.concat(params.row.minion);
                                             }
@@ -147,7 +147,7 @@ Minion: {{minion}}
                         }
                     },
                     {
-                        title: '主机',
+                        title: 'Host',
                         key: 'minion',
                         render: (h, params) => {
                             return h('div', params.row.minion.map(item => {
@@ -164,13 +164,13 @@ Minion: {{minion}}
                 targetData: [],
                 columnsHistory: [
                     {
-                        title: '命令',
+                        title: 'Command',
                         key: 'command',
                         render: (h, params) => {
                             return h('div', {
                                 on: {
                                     'dblclick': () => {
-                                        // 双击历史命令填充到命令行表单
+                                        // Double-click the history command to populate the command line form
                                         this.formValidate.command = params.row.command;
                                     }
                                 }
@@ -178,12 +178,12 @@ Minion: {{minion}}
                         }
                     },
                     {
-                        title: '用户',
+                        title: 'User',
                         key: 'username',
                         width: 180
                     },
                     {
-                        title: '时间',
+                        title: 'Time',
                         key: 'time',
                         width: 160
                     }
@@ -202,28 +202,28 @@ Minion: {{minion}}
             }
         },
         watch: {
-            // 监控产品线变化
+            // Monitor product line changes
             productId () {
-                // 重新获取分组信息
+                // Get group information again
                 this.getGroups();
-                // 清除命令表单数据
+                // Clear command form data
                 this.formValidate.command = '';
-                // 清除目标表单数据
+                // Clear target form data
                 this.formValidate.target = [];
-                // 清除结果信息
+                // Clear result information
                 this.resultShow = false;
-                // 清除摘要信息
+                // Clear summary information
                 this.result = '';
-                // 停止loading
+                // Stop loading
                 this.spinShow = false;
-                // 重新获取历史命令
+                // Retrieve history commands
                 this.getHistory();
-                // 清除搜索的内容
+                // Clear search
                 this.searchConName = '';
             }
         },
         methods: {
-            // 获取用户所拥有的产品线
+            // Get product lines owned by users
             productList () {
                 this.axios.get(this.Global.serverSrc + 'product').then(
                     res => {
@@ -232,7 +232,7 @@ Minion: {{minion}}
                             if (this.productData.length > 0) {
                                 this.productId = this.productData[0].id;
                             }
-                            // 加载完产品线后加载历史命令
+                            // Load history command after loading product line
                             this.getHistory();
                         } else {
                             this.nError('Get Product Failure', res.data['message']);
@@ -248,7 +248,7 @@ Minion: {{minion}}
                         this.nError('Get Product Failure', errInfo);
                     });
             },
-            // 重新定义错误消息
+            // Redefine the error message
             nError (title, info) {
                 this.$Notice.error({
                     title: title,
@@ -260,15 +260,15 @@ Minion: {{minion}}
                 this.getGroups();
                 this.getHistory();
             },
-            // 处理选择的minion
+            // Handling selected minion
             handleTarget () {
                 // 去重
                 this.target = [...new Set(this.formValidate.target)];
-                // 获取所有的组名
+                // Get all group names
                 let group = this.targetData.map(item => {
                     return item['name'];
                 });
-                // 去除minion里面的组名
+                // Remove the group name in minion
                 for (let i = this.target.length - 1; i >= 0; i--) {
                     for (let m = group.length - 1; m >= 0; m--) {
                         if (this.target[i] === group[m]) {
@@ -292,7 +292,7 @@ Minion: {{minion}}
                                     this.result = res.data['data'];
                                     this.resultShow = true;
                                     this.spinShow = false;
-                                    // 有错误后显示不同的颜色
+                                    // Show different colors after errors
                                     if (this.result['failure'] !== '0') {
                                         this.summaryType = 'error';
                                     } else {
@@ -318,7 +318,7 @@ Minion: {{minion}}
                                 this.nError('Execute Failure', errInfo);
                             });
                     } else {
-                        this.$Message.error('请检查表单数据！');
+                        this.$Message.error('Please check the form data');
                     }
                 });
             },

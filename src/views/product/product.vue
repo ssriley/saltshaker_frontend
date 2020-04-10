@@ -6,64 +6,64 @@
                 @getProductEvent="getProductEvent"
                 :productShow="false"
                 ref="childrenMethods">
-            <Button slot="create" type="primary" @click="add('formValidate')">创建产品</Button>
+            <Button slot="create" type="primary" @click="add('formValidate')">Create product</Button>
             <Modal slot="option" v-model="formView"  :title="optionTypeName">
                 <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="125">
-                    <FormItem label="产品线名" prop="name">
-                        <Input v-model="formValidate.name" placeholder="输入用户名"></Input>
+                    <FormItem label="Product line name" prop="name">
+                        <Input v-model="formValidate.name" placeholder="Enter your user name"></Input>
                     </FormItem>
-                    <FormItem label="描述" prop="description">
-                        <Input v-model="formValidate.description" placeholder="输入描述"></Input>
+                    <FormItem label="description" prop="description">
+                        <Input v-model="formValidate.description" placeholder="Enter description"></Input>
                     </FormItem>
                     <FormItem label="Master ID" prop="salt_master_id">
-                        <Input v-model="formValidate.salt_master_id" placeholder="输入Master ID"></Input>
+                        <Input v-model="formValidate.salt_master_id" placeholder="Enter Master ID"></Input>
                     </FormItem>
-                    <FormItem label="Master API 地址" prop="salt_master_url">
-                        <Input v-model="formValidate.salt_master_url" placeholder="输入Master API 地址"></Input>
+                    <FormItem label="Master API address" prop="salt_master_url">
+                        <Input v-model="formValidate.salt_master_url" placeholder="http://192.168.1.10:8080"></Input>
                     </FormItem>
-                    <FormItem label="Master API 用户名" prop="salt_master_user">
-                        <Input v-model="formValidate.salt_master_user" placeholder="输入Master API 用户名"></Input>
+                    <FormItem label="Master API username" prop="salt_master_user">
+                        <Input v-model="formValidate.salt_master_user" placeholder="Enter Master API username"></Input>
                     </FormItem>
-                    <FormItem label="Master API 密码" prop="salt_master_password">
-                        <Input v-model="formValidate.salt_master_password" placeholder="输入Master API 密码"></Input>
+                    <FormItem label="Master API password" prop="salt_master_password">
+                        <Input v-model="formValidate.salt_master_password" placeholder="Enter Master API User password"></Input>
                     </FormItem>
                     <FormItem label="" prop="check_salt_api">
                         <Button type="primary" :loading="salt_api_loading" @click="handleCheckAPI('salt_api')">
-                            <span v-if="!salt_api_loading">测试 Salt API</span>
-                            <span v-else>测试 Salt API</span>
+                            <span v-if="!salt_api_loading">test Salt API_does not work</span>
+                            <span v-else>test Salt API</span>
                         </Button>
                     </FormItem>
-                    <FormItem label="文件服务器">
+                    <FormItem label="file server">
                         <RadioGroup v-model="formValidate.file_server">
                             <Radio label="gitfs">GitLab</Radio>
                             <Radio label="rsync">Rsync</Radio>
                         </RadioGroup>
                     </FormItem>
-                    <FormItem v-if="this.formValidate.file_server === 'gitfs'" label="GitLab 地址" prop="gitlab_url">
-                        <Input v-model="formValidate.gitlab_url" placeholder="输入GitLab 地址"></Input>
+                    <FormItem v-if="this.formValidate.file_server === 'gitfs'" label="GitLab address" prop="gitlab_url">
+                        <Input v-model="formValidate.gitlab_url" placeholder="enter GitLab address"></Input>
                     </FormItem>
-                    <FormItem v-if="this.formValidate.file_server === 'gitfs'" label="GitLab API 版本" prop="api_version">
-                        <Input v-model="formValidate.api_version" placeholder="输入GitLab API 版本"></Input>
+                    <FormItem v-if="this.formValidate.file_server === 'gitfs'" label="GitLab API version" prop="api_version">
+                        <Input v-model="formValidate.api_version" placeholder="enter 4"></Input>
                     </FormItem>
                     <FormItem v-if="this.formValidate.file_server === 'gitfs'" label="GitLab Token" prop="private_token">
-                        <Input v-model="formValidate.private_token" placeholder="输入GitLab Token"></Input>
+                        <Input v-model="formValidate.private_token" placeholder="Enter GitLab Token"></Input>
                     </FormItem>
-                    <FormItem v-if="this.formValidate.file_server === 'gitfs'" label="GitLab State 项目" prop="state_project">
-                        <Input v-model="formValidate.state_project" placeholder="输入GitLab State 项目"></Input>
+                    <FormItem v-if="this.formValidate.file_server === 'gitfs'" label="GitLab State project" prop="state_project">
+                        <Input v-model="formValidate.state_project" placeholder="Enter GitLab State project"></Input>
                     </FormItem>
-                    <FormItem v-if="this.formValidate.file_server === 'gitfs'" label="GitLab Pillar 项目" prop="pillar_project">
-                        <Input v-model="formValidate.pillar_project" placeholder="输入GitLab Pillar 项目"></Input>
+                    <FormItem v-if="this.formValidate.file_server === 'gitfs'" label="GitLab Pillar project" prop="pillar_project">
+                        <Input v-model="formValidate.pillar_project" placeholder="Enter GitLab Pillar project"></Input>
                     </FormItem>
                     <FormItem v-if="this.formValidate.file_server === 'gitfs'" label="" prop="check_gitlab_api">
                         <Button type="primary" :loading="gitlab_api_loading" @click="handleCheckAPI('gitlab_api')">
-                            <span v-if="!gitlab_api_loading">测试 GitLab API</span>
-                            <span v-else>测试 GitLab API</span>
+                            <span v-if="!gitlab_api_loading">Test GitLab API</span>
+                            <span v-else>Test GitLab API</span>
                         </Button>
                     </FormItem>
                 </Form>
                 <div slot="footer">
-                    <Button type="ghost" @click="handleReset('formValidate')" style="margin-left: 8px">重置</Button>
-                    <Button type="primary" @click="handleSubmit('formValidate')">提交</Button>
+                    <Button type="ghost" @click="handleReset('formValidate')" style="margin-left: 8px">Reset</Button>
+                    <Button type="primary" @click="handleSubmit('formValidate')">submit</Button>
                 </div>
             </Modal>
         </common-table>
@@ -81,10 +81,10 @@
                 apiService: 'product',
                 productData: [],
                 productId: '',
-                // 删除数据
+                // delete data
                 delId: '',
                 delIndex: '',
-                // 编辑数据
+                // Edit data
                 formView: false,
                 salt_api_loading: false,
                 gitlab_api_loading: false,
@@ -93,7 +93,7 @@
                 optionTypeName: '',
                 cColumns: [
                     {
-                        title: '产品线',
+                        title: 'product line',
                         key: 'name',
                         sortable: true,
                         width: 160,
@@ -111,7 +111,7 @@
                         }
                     },
                     {
-                        title: '描述',
+                        title: 'description',
                         key: 'description',
                         width: 160,
                         sortable: true
@@ -123,31 +123,31 @@
                         sortable: true
                     },
                     {
-                        title: 'Master API 地址',
+                        title: 'Master API address',
                         key: 'salt_master_url',
                         width: 180,
                         sortable: true
                     },
                     {
-                        title: 'Master API 用户名',
+                        title: 'Master API username',
                         key: 'salt_master_user',
                         width: 160,
                         sortable: true
                     },
                     {
-                        title: '文件服务器',
+                        title: 'file server',
                         key: 'file_server',
                         width: 140,
                         sortable: true
                     },
                     {
-                        title: 'GitLab 地址',
+                        title: 'GitLab Address',
                         key: 'gitlab_url',
                         width: 180,
                         sortable: true
                     },
                     {
-                        title: 'GitLab API 版本',
+                        title: 'GitLab API Version',
                         key: 'api_version',
                         width: 160,
                         sortable: true
@@ -159,19 +159,19 @@
                         sortable: true
                     },
                     {
-                        title: 'GitLab State 项目',
+                        title: 'GitLab State Project',
                         key: 'state_project',
                         width: 160,
                         sortable: true
                     },
                     {
-                        title: 'GitLab Pillar 项目',
+                        title: 'GitLab Pillar Project',
                         key: 'pillar_project',
                         width: 160,
                         sortable: true
                     },
                     {
-                        title: '操作',
+                        title: 'Action',
                         key: 'action',
                         width: 123,
                         fixed: 'right',
@@ -190,16 +190,16 @@
                                         click: () => {
                                             this.formView = true;
                                             this.optionType = 'edit';
-                                            this.optionTypeName = '编辑';
+                                            this.optionTypeName = 'edit';
                                             this.id = params.row.id;
                                             this.formValidate = params.row;
                                         }
                                     }
-                                }, '编辑'),
+                                }, 'edit'),
                                 h('Poptip', {
                                     props: {
                                         confirm: true,
-                                        title: '确定要删除 ' + params.row.name + ' 吗?',
+                                        title: 'Are you sure you want to delete ' + params.row.name + ' ?',
                                         transfer: true,
                                         placement: 'top-end'
                                     },
@@ -222,7 +222,7 @@
                         }
                     }
                 ],
-                // 表单验证
+                // form Validation
                 formValidate: {
                     name: '',
                     description: '',
@@ -244,37 +244,37 @@
                 },
                 ruleValidate: {
                     name: [
-                        { required: true, message: '产品线名不能为空', trigger: 'blur' }
+                        { required: true, message: 'Product line name cannot be empty', trigger: 'blur' }
                     ],
                     description: [
-                        { required: true, message: '描述不能为空', trigger: 'blur' }
+                        { required: true, message: 'Description cannot be empty', trigger: 'blur' }
                     ],
                     salt_master_id: [
-                        { required: true, message: 'Master ID不能为空', trigger: 'blur' }
+                        { required: true, message: 'Master ID can not be empty', trigger: 'blur' }
                     ],
                     salt_master_url: [
-                        { required: true, message: 'Master API 地址不能为空', trigger: 'blur' }
+                        { required: true, message: 'Master API Address cannot be empty', trigger: 'blur' }
                     ],
                     salt_master_user: [
-                        { required: true, message: 'Master API 用户名不能为空', trigger: 'blur' }
+                        { required: true, message: 'Master API username cannot be empty', trigger: 'blur' }
                     ],
                     salt_master_password: [
-                        { required: true, message: 'Master API 密码不能为空', trigger: 'blur' }
+                        { required: true, message: 'Master API password cannot be empty', trigger: 'blur' }
                     ],
                     gitlab_url: [
-                        { required: true, message: 'GitLab 地址不能为空', trigger: 'blur' }
+                        { required: true, message: 'GitLab address url cannot be empty', trigger: 'blur' }
                     ],
                     api_version: [
-                        { required: true, message: 'GitLab API 版本不能为空', trigger: 'blur' }
+                        { required: true, message: 'GitLab API version cannot be emtpy', trigger: 'blur' }
                     ],
                     private_token: [
-                        { required: true, message: 'GitLab Token不能为空', trigger: 'blur' }
+                        { required: true, message: 'GitLab Token cannot be empty', trigger: 'blur' }
                     ],
                     state_project: [
-                        { required: true, message: 'GitLab State 项目不能为空', trigger: 'blur' }
+                        { required: true, message: 'GitLab State project cannot be empty', trigger: 'blur' }
                     ],
                     pillar_project: [
-                        { required: true, message: 'GitLab Pillar 项目不能为空', trigger: 'blur' }
+                        { required: true, message: 'GitLab Pillar project cannot be empty', trigger: 'blur' }
                     ]
                 }
             };
@@ -284,26 +284,26 @@
                 this.productData = productData;
                 this.productId = productId;
             },
-            // 调用子组件进行删除
+            // Call subcomponent to delete
             del () {
                 this.$refs.childrenMethods.del(this.delId);
             },
-            // 调用子组件进行数据刷新
+            // Call subcomponent to refresh data
             tableList () {
                 this.$refs.childrenMethods.tableList();
             },
-            // 调用子组件消息通知
+            // Call sub-component message notification
             nError (title, info) {
                 this.$refs.childrenMethods.nError(title, info);
             },
-            // 添加展示
+            // Add impression
             add (name) {
                 this.handleReset(name);
                 this.optionType = 'add';
-                this.optionTypeName = '添加';
+                this.optionTypeName = 'add to';
                 this.formView = true;
             },
-            // 检查salt api 可用性
+            // Check salt api availability
             handleCheckAPI (name) {
                 if (name === 'salt_api') {
                     this.salt_api_loading = true;
@@ -315,7 +315,7 @@
                     res => {
                         if (res.data['status'] === true) {
                             this.formView = true;
-                            this.$Message.success('成功！');
+                            this.$Message.success('success！');
                         } else {
                             this.nError('Check Failure', res.data['message']);
                         }
@@ -341,7 +341,7 @@
                         }
                     });
             },
-            // 表单提
+            // form mention
             handleSubmit (name) {
                 this.$refs[name].validate((valid) => {
                     if (valid) {
@@ -352,14 +352,14 @@
                             this.formValidate.state_project = '';
                             this.formValidate.pillar_project = '';
                         };
-                        // 编辑
+                        // edit
                         if (this.optionType === 'edit') {
                             this.axios.put(this.Global.serverSrc + this.apiService + '/' + this.id,
                                 this.formValidate).then(
                                 res => {
                                     if (res.data['status'] === true) {
                                         this.formView = false;
-                                        this.$Message.success('成功！');
+                                        this.$Message.success('success！');
                                         this.tableList();
                                     } else {
                                         this.nError('Edit Failure', res.data['message']);
@@ -375,13 +375,13 @@
                                     this.nError('Edit Failure', errInfo);
                                 });
                         } else {
-                            // 添加
+                            // add to
                             this.axios.post(this.Global.serverSrc + this.apiService,
                                 this.formValidate).then(
                                 res => {
                                     if (res.data['status'] === true) {
                                         this.formView = false;
-                                        this.$Message.success('成功！');
+                                        this.$Message.success('success！');
                                         this.tableList();
                                     } else {
                                         this.nError('Add Failure', res.data['message']);
@@ -398,7 +398,7 @@
                                 });
                         }
                     } else {
-                        this.$Message.error('请检查表单数据！');
+                        this.$Message.error('Please check the form data！');
                     }
                 });
             },

@@ -3,7 +3,7 @@
         <Row class="margin-top-10">
             <Card dis-hover>
                 <p slot="title">
-                    任务详情
+                    Task detail
                 </p>
                 <Table :columns="columns" :data="task" :show-header="false" :border="true"></Table>
             </Card>
@@ -16,7 +16,7 @@ export default {
     data () {
         return {
             period: '',
-            // 关闭清理定时刷新
+            // Turn off cleanup timer refresh
             timer: null,
             columns: [
                 {
@@ -29,7 +29,7 @@ export default {
                     title: '',
                     key: 'value',
                     render: (h, params) => {
-                        if (params.row.key === '目标组') {
+                        if (params.row.key === 'Target group') {
                             return h('ul', params.row.value.map(item => {
                                 return h('li', {
                                     style: {
@@ -39,7 +39,7 @@ export default {
                                 }, item.name);
                             })
                             );
-                        } else if (params.row.key === '结果') {
+                        } else if (params.row.key === 'result') {
                             return h('ul', params.row.value.map(item => {
                                 return h('li', [
                                     h('Tag', item.option),
@@ -49,7 +49,7 @@ export default {
                                         }
                                     }, this.formatTime(item.time)),
                                     h('div', Object.keys(item.result).map(k => {
-                                        // 执行SLS的时候返回的是个object
+                                        // When SLS is executed, an object is returned
                                         if (typeof item.result[k] === 'object') {
                                             return h('highlight-code', {
                                                 props: {
@@ -83,13 +83,13 @@ export default {
                                     'style': 'overflow:auto'
                                 }
                             }, params.row.value);
-                        } else if (params.row.key === '调度') {
+                        } else if (params.row.key === 'Scheduling') {
                             if (params.row.value === 'once') {
-                                return '一次';
+                                return 'once';
                             } else {
-                                return '周期';
+                                return 'cycle';
                             }
-                        } else if (params.row.key === '审计') {
+                        } else if (params.row.key === 'audit') {
                             return h('ul', params.row.value.map(item => {
                                 if (item.timestamp === '') {
                                     return '.........';
@@ -135,7 +135,7 @@ export default {
                             period = this.period['period']['interval'] + '/' + this.period['period']['type'][0];
                         } else {
                             if (this.period['once']['type'] === 'now') {
-                                timing = '立即';
+                                timing = 'immediately';
                             } else {
                                 timing = this.period['once']['date'].split(' ')[0] + ' ' + this.period['once']['time'];
                             }
@@ -147,39 +147,39 @@ export default {
                                 value: this.period['id']
                             },
                             {
-                                key: 'Job名',
+                                key: 'Job name',
                                 value: this.period['name']
                             },
                             {
-                                key: '描述',
+                                key: 'description',
                                 value: this.period['description']
                             },
                             {
-                                key: '产品',
+                                key: 'product',
                                 value: this.period['product_id']
                             },
                             {
-                                key: '调度',
+                                key: 'Scheduling',
                                 value: this.period['scheduler']
                             },
                             {
-                                key: '定时时间',
+                                key: 'Timing',
                                 value: timing
                             },
                             {
-                                key: '周期',
+                                key: 'cycle',
                                 value: period
                             },
                             {
-                                key: '并行',
+                                key: 'parallel',
                                 value: this.period['concurrent']
                             },
                             {
-                                key: '并行间隔',
+                                key: 'Parallel interval',
                                 value: this.period['interval'] + 's'
                             },
                             {
-                                key: '类型',
+                                key: 'Types of',
                                 value: this.period['execute']
                             }
                         );
@@ -200,15 +200,15 @@ export default {
                         }
                         this.task.push(
                             {
-                                key: '目标组',
+                                key: 'Target group',
                                 value: this.period['target']
                             },
                             {
-                                key: '审计',
+                                key: 'audit',
                                 value: this.period['audit']
                             },
                             {
-                                key: '结果',
+                                key: 'result',
                                 value: this.period['result']
                             }
                         );
@@ -226,11 +226,11 @@ export default {
                     this.nError('Get Task Failure', errInfo);
                 });
         },
-        // 重新定义错误消息
+        // Redefine the error message
         nError (title, info) {
             this.$Notice.error({
                 title: title,
-                // 替换<>避免被解析为html标签
+                // Replace <> to avoid being parsed as html tags
                 desc: info.toString().replace(/<|>/g, ''),
                 duration: 10
             });
@@ -257,7 +257,7 @@ export default {
             this.init();
         }
     },
-    // 关闭销毁
+    // Close destruction
     beforeDestroy () {
         clearInterval(this.timer);
     }

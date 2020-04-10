@@ -1,7 +1,7 @@
 <template>
     <div>
         <common-table :cColumns="cColumns" :apiService="apiService" ref="childrenMethods" :productShow="true"></common-table>
-        <Modal width="650px" v-model="showInfo" title="返回结果" >
+        <Modal width="650px" v-model="showInfo" title="Return result" >
             <pre style="overflow:auto">
 {{result}}
             </pre>
@@ -23,7 +23,7 @@
                 showInfo: false,
                 minion: [],
                 tmp: '',
-                // 删除数据
+                // delete data
                 delId: '',
                 delIndex: '',
                 result: '',
@@ -35,7 +35,7 @@
                         width: 195
                     },
                     {
-                        title: '用户名',
+                        title: 'username',
                         key: 'User',
                         sortable: true
                     },
@@ -56,12 +56,12 @@
                         }
                     },
                     {
-                        title: '功能',
+                        title: 'function',
                         key: 'Function',
                         sortable: true
                     },
                     {
-                        title: '参数',
+                        title: 'parameters',
                         key: 'Arguments',
                         sortable: true,
                         render: (h, params) => {
@@ -69,7 +69,7 @@
                         }
                     },
                     {
-                        title: '时间',
+                        title: 'time',
                         key: 'StartTime',
                         sortable: true,
                         render: (h, params) => {
@@ -77,7 +77,7 @@
                         }
                     },
                     {
-                        title: '操作',
+                        title: 'Action',
                         key: 'action',
                         width: 70,
                         align: 'center',
@@ -86,7 +86,7 @@
                                 h('Poptip', {
                                     props: {
                                         confirm: true,
-                                        title: '确定要Kill ' + params.row.Jid + ' 吗?',
+                                        title: 'Sure to kill ' + params.row.Jid + ' ?',
                                         transfer: true,
                                         placement: 'top-end'
                                     },
@@ -114,7 +114,7 @@
             };
         },
         methods: {
-            // 调用子组件进行kill
+            // Call subcomponent to kill
             kill () {
                 this.$refs.childrenMethods.kill(this.delId, this.minion);
             },

@@ -7,7 +7,7 @@
         <Card>
             <p slot="title">
                 <Icon type="person"></Icon>
-                个人信息
+                Personal information
             </p>
             <div>
                 <Form 
@@ -20,41 +20,41 @@
                     <FormItem label="ID：">
                         <span>{{ userForm.id }}</span>
                     </FormItem>
-                    <FormItem label="用户名：" prop="username">
+                    <FormItem label="username：" prop="username">
                         <div style="display:inline-block;width:300px;">
                             <Input v-model="userForm.username" ></Input>
                         </div>
                     </FormItem>
-                    <FormItem label="邮箱：" prop="mail">
+                    <FormItem label="email：" prop="mail">
                         <div style="display:inline-block;width:300px;">
                             <Input v-model="userForm.mail" ></Input>
                         </div>
                     </FormItem>
-                    <FormItem label="登录密码：">
-                        <Button type="text" size="small" @click="showEditPassword">修改密码</Button>
+                    <FormItem label="login password：">
+                        <Button type="text" size="small" @click="showEditPassword">change Password</Button>
                     </FormItem>
                     <FormItem>
-                        <Button type="primary" style="width: 300px;" @click="saveEdit">保存</Button>
+                        <Button type="primary" style="width: 300px;" @click="saveEdit">Save</Button>
                     </FormItem>
                 </Form>
             </div>
         </Card>
         <Modal v-model="editPasswordModal" :closable='false' :mask-closable=false :width="500">
-            <h3 slot="header">修改密码</h3>
+            <h3 slot="header">change Password</h3>
             <Form ref="editPasswordForm" :model="editPasswordForm" :label-width="82" label-position="right" :rules="passwordValidate">
-                <FormItem label="原密码" prop="oldPass" :error="oldPassError">
-                    <Input type="password" v-model="editPasswordForm.oldPass" placeholder="请输入现在使用的密码" ></Input>
+                <FormItem label="old password" prop="oldPass" :error="oldPassError">
+                    <Input type="password" v-model="editPasswordForm.oldPass" placeholder="Please enter the current password" ></Input>
                 </FormItem>
-                <FormItem label="新密码" prop="newPass">
-                    <Input type="password" v-model="editPasswordForm.newPass" placeholder="请输入新密码，至少6位字符" ></Input>
+                <FormItem label="new password" prop="newPass">
+                    <Input type="password" v-model="editPasswordForm.newPass" placeholder="Please enter a new password, at least 6 characters" ></Input>
                 </FormItem>
-                <FormItem label="确认新密码" prop="rePass">
-                    <Input type="password" v-model="editPasswordForm.rePass" placeholder="请再次输入新密码" ></Input>
+                <FormItem label="Confirm the new password" prop="rePass">
+                    <Input type="password" v-model="editPasswordForm.rePass" placeholder="Please enter the new password again" ></Input>
                 </FormItem>
             </Form>
             <div slot="footer">
-                <Button type="text" @click="cancelEditPass">取消</Button>
-                <Button type="primary" @click="saveEditPass">保存</Button>
+                <Button type="text" @click="cancelEditPass">cancel</Button>
+                <Button type="primary" @click="saveEditPass">Save</Button>
             </div>
         </Modal>
     </div>
@@ -68,7 +68,7 @@ export default {
     data () {
         const valideRePassword = (rule, value, callback) => {
             if (value !== this.editPasswordForm.newPass) {
-                callback(new Error('两次输入密码不一致'));
+                callback(new Error('Two passwords are inconsistent'));
             } else {
                 callback();
             }
@@ -84,11 +84,11 @@ export default {
             oldPassError: '',
             infoValidate: {
                 username: [
-                    { required: true, message: '请输入姓名', trigger: 'blur' }
+                    { required: true, message: 'Please type in your name', trigger: 'blur' }
                 ],
                 mail: [
-                    { required: true, message: '邮箱不能为空', trigger: 'blur' },
-                    { type: 'email', message: '无效的邮箱格式', trigger: 'blur' }
+                    { required: true, message: 'E-mail can not be empty', trigger: 'blur' },
+                    { type: 'email', message: 'Invalid email format', trigger: 'blur' }
                 ]
             },
             editPasswordForm: {
@@ -98,15 +98,15 @@ export default {
             },
             passwordValidate: {
                 oldPass: [
-                    { required: true, message: '请输入原密码', trigger: 'blur' }
+                    { required: true, message: 'Please enter the original password', trigger: 'blur' }
                 ],
                 newPass: [
-                    { required: true, message: '请输入新密码', trigger: 'blur' },
-                    { min: 6, message: '请至少输入6个字符', trigger: 'blur' },
-                    { max: 32, message: '最多输入32个字符', trigger: 'blur' }
+                    { required: true, message: 'Please enter a new password', trigger: 'blur' },
+                    { min: 6, message: '请Please enter at least 6 characters', trigger: 'blur' },
+                    { max: 32, message: 'Enter up to 32 characters', trigger: 'blur' }
                 ],
                 rePass: [
-                    { required: true, message: '请再次输入新密码', trigger: 'blur' },
+                    { required: true, message: 'Please enter the new password again', trigger: 'blur' },
                     { validator: valideRePassword, trigger: 'blur' }
                 ]
             }
@@ -114,7 +114,7 @@ export default {
     },
     computed: {
         uid () {
-            // 存储在localStorage解决刷新页面vuex 的值消失的的问题
+            // Stored in localStorage solves the problem that the value of vuex disappears when refreshing the page
             if (this.$store.state.globalInfo.uid === '') {
                 this.$store.commit('setUserId', localStorage.user);
             }
@@ -149,7 +149,7 @@ export default {
                     this.axios.put(this.Global.serverSrc + 'user/change/' + this.uid, postData).then(
                         res => {
                             if (res.data['status'] === true) {
-                                this.$Message.success('修改成功！');
+                                this.$Message.success('Successfully modified！');
 //                                Cookies.set('user', this.userForm.username);
 //                                localStorage.username = this.userForm.username;
                             } else {
@@ -174,7 +174,7 @@ export default {
         saveEditPass () {
             this.$refs['editPasswordForm'].validate((valid) => {
                 if (valid) {
-                    // 使用rsa对密码进行加密
+                    // Use rsa to encrypt the password
                     let jse = new jsEncrypt();
                     jse.setPublicKey(this.publicKey);
                     let postData = {
@@ -186,7 +186,7 @@ export default {
                         res => {
                             if (res.data['status'] === true) {
                                 this.editPasswordModal = false;
-                                this.$Message.success('重置密码成功！');
+                                this.$Message.success('Password reset succeeded！');
                             } else {
                                 this.nError('Reset Password', res.data['message']);
                             }
@@ -222,23 +222,23 @@ export default {
                     this.nError('Get User Failure', errInfo);
                 });
         },
-        // 重新定义错误消息
+        // Redefine the error message
         nError (title, info) {
             this.$Notice.error({
                 title: title,
-                // 替换<>避免被解析为html标签
+                // Replace <> to avoid being parsed as html tags
                 desc: info.toString().replace(/<|>/g, ''),
                 duration: 10
             });
         },
-        // 获取rsa 公钥
+        // Get rsa public key
         RSA () {
             this.axios.get(this.Global.serverSrc + 'rsa').then(
                 res => {
                     if (res.data['status'] === true) {
                         this.publicKey = res.data['data'];
                     } else {
-                        this.nError('加密失败:', res.data['message']);
+                        this.nError('Encryption failed:', res.data['message']);
                     }
                 },
                 err => {
@@ -248,7 +248,7 @@ export default {
                     } catch (error) {
                         errInfo = err;
                     }
-                    this.nError('加密失败:', errInfo);
+                    this.nError('Encryption failed:', errInfo);
                 });
         }
     },

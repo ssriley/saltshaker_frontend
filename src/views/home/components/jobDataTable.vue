@@ -12,7 +12,7 @@ export default {
             jobData: this.tableList(),
             columns: [
                 {
-                    title: 'Job 名',
+                    title: 'Job Name',
                     key: 'name',
                     sortable: true,
                     render: (h, params) => {
@@ -28,7 +28,7 @@ export default {
                     }
                 },
                 {
-                    title: '目标',
+                    title: 'Target',
                     key: 'target',
                     sortable: true,
                     render: (h, params) => {
@@ -44,21 +44,21 @@ export default {
                     }
                 },
                 {
-                    title: '调度',
+                    title: 'Scheduling',
                     key: 'scheduler',
                     sortable: true,
                     render: (h, params) => {
                         if (params.row.scheduler === 'once') {
-                            return '一次';
+                            return 'once';
                         } else if (params.row.scheduler === 'period') {
-                            return '周期';
+                            return 'cycle';
                         } else {
-                            return '计划任务';
+                            return 'Scheduled Tasks';
                         }
                     }
                 },
                 {
-                    title: '周期',
+                    title: 'cycle',
                     key: 'period',
                     sortable: true,
                     render: (h, params) => {
@@ -66,7 +66,7 @@ export default {
                     }
                 },
                 {
-                    title: '更新时间',
+                    title: 'Update time',
                     key: 'timestamp',
                     sortable: true,
                     width: 160,
@@ -77,7 +77,7 @@ export default {
                     }
                 },
                 {
-                    title: '状态',
+                    title: 'status',
                     key: 'status',
                     sortable: true,
                     width: 120,
@@ -140,7 +140,7 @@ export default {
         nError (title, info) {
             this.$Notice.error({
                 title: title,
-                // 替换<>避免被解析为html标签
+                // Replace <> to avoid being parsed as html tags
                 desc: info.toString().replace(/<|>/g, ''),
                 duration: 10
             });

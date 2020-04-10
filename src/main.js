@@ -11,7 +11,7 @@ import util from './libs/util';
 import axios from 'axios';
 import VueAxios from 'vue-axios';
 import global from './config/Global.vue';
-// 使用highlight
+// Use highlight
 import VueHighlightJS from 'vue-highlight.js/';
 import 'highlight.js/styles/agate.css';
 Vue.use(VueHighlightJS);
@@ -22,9 +22,9 @@ Vue.use(VueAxios, axios);
 Vue.use(VueI18n);
 Vue.use(iView);
 
-// axios带着cookie 请求
+// axios with cookie request
 axios.defaults.withCredentials = true;
-// axios超时时间毫秒
+// axios timeout time in milliseconds
 axios.defaults.timeout = 60 * 1000;
 
 // Vue.directive('highlight', function (el) {
@@ -44,12 +44,12 @@ new Vue({
     },
     mounted () {
         this.currentPageName = this.$route.name;
-        // 显示打开的页面的列表
+        // Display a list of open pages
         this.$store.commit('setOpenedList');
         this.$store.commit('initCachepage');
-        // 权限菜单过滤相关
+        // Permission menu filtering
         this.$store.commit('updateMenulist');
-        // iview-admin检查更新
+        // iview-admin checks for updates
         util.checkUpdate(this);
     },
     created () {
