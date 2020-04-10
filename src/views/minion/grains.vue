@@ -236,6 +236,32 @@
                         sortable: true
                     },
                     {
+                        title: 'WhoAmI',
+                        key: 'whoami',
+                        width: 140,
+                        sortable: true
+                    },
+                    {
+                        title: 'Nebula Groups',
+                        key: 'nebula',
+                        width: 130,
+                        sortable: true,
+                        render: (h, params) => {
+                            if (params.row.nebula === undefined) {
+                                return '';
+                            }
+                            return h('ul', params.row.nebula.map(item => {
+                                return h('li', {
+                                    style: {
+                                        textAlign: 'left',
+                                        padding: '0px'
+                                    }
+                                }, item);
+                            })
+                            );
+                        }
+                    },
+                    {
                         title: 'productname',
                         key: 'productname',
                         width: 150,
