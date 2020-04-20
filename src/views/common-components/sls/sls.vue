@@ -376,7 +376,7 @@
                 let time = setTimeout(() => {
                     this.$refs.vscode.destroyMonaco();
                     this.$refs.vscode.createMonaco();
-                }, 1);
+                }, 2);
             }
         }
     };

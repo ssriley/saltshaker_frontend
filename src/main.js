@@ -25,7 +25,7 @@ Vue.use(iView);
 // axios with cookie request
 axios.defaults.withCredentials = true;
 // axios timeout time in milliseconds
-axios.defaults.timeout = 60 * 1000;
+axios.defaults.timeout = 60 * 1500;
 
 // Vue.directive('highlight', function (el) {
 //     let blocks = el.querySelectorAll('pre code');

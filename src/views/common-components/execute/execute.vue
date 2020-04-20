@@ -262,7 +262,7 @@ Minion: {{minion}}
             },
             // Handling selected minion
             handleTarget () {
-                // 去重
+                // Deduplication
                 this.target = [...new Set(this.formValidate.target)];
                 // Get all group names
                 let group = this.targetData.map(item => {

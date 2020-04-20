@@ -42,6 +42,8 @@
                 productId: '',
                 syncHost: false,
                 progress: false,
+                minion: [],
+                rowData: [],
                 percent: 0,
                 cColumns: [
                     {
