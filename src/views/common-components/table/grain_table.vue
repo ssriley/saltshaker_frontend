@@ -1,0 +1,406 @@
+<style lang="less">
+    @import '../../../styles/common.less';
+    @import '../../common-components/table/table.less';
+</style>
+
+<template>
+    <div>
+        <Row class="margin-top-10">
+            <Col span="24">
+                <Card dis-hover>
+                    <Row>
+                        <Select style="width:200px" v-model="productId" v-show="productShow">
+                            <Option v-for="item in productData" :value="item.id" :key="item.id">{{ item.name }}</Option>
+                        </Select>
+                        <div style="float: right;" >
+                            <slot name="create"></slot>
+                            <slot name="downMenu"></slot>
+                            <Button type="primary" @click="refresh()">Refresh</Button>
+                        </div>
+                    </Row>
+                    <Row>
+                        <hr class="hr-margin" color="#e3e8ee" size="0.5">
+                    </Row>
+                    <Row>
+                        <div style="float: right;">
+                            <Input v-model.trim="nSearchVal" @on-change="handleSearch">
+                                <Button slot="append" icon="ios-search"></Button>
+                            </Input>
+                        </div>
+                        <div style="margin-bottom: -10px;">
+                            <Button type="primary" @click="exportData(1)">Export</Button>
+                            <Poptip placement="bottom-start">
+                                <Button type="primary">Custom Column</Button>
+                                <div slot="content">
+                                  <ul>
+                                    <li v-for="(c, i) in nColumns" v-if="i > 0" :key="i">
+                                      <Checkbox :value="nColumnsExcept.indexOf(c.key) === -1" @on-change="columnsExcept(c.key)">{{ c.title }}</Checkbox>
+                                    </li>
+                                  </ul>
+                                </div>
+                            </Poptip>
+                            <Dropdown>
+                                <Button type="primary">
+                                    Show number
+                                    <Icon type="arrow-down-b"></Icon>
+                                </Button>
+                                <DropdownMenu slot="list">
+                                    <DropdownItem>
+                                        <div @click="customPage(5)">5</div>
+                                    </DropdownItem>
+                                    <DropdownItem>
+                                        <div @click="customPage(10)">10</div>
+                                    </DropdownItem>
+                                    <DropdownItem>
+                                        <div @click="customPage(50)">50</div>
+                                    </DropdownItem>
+                                    <DropdownItem>
+                                        <div @click="customPage(100)">100</div>
+                                    </DropdownItem>
+                                    <DropdownItem divided>
+                                        <div @click="customPage(pageCount)">All</div>
+                                    </DropdownItem>
+                                </DropdownMenu>
+                            </Dropdown>
+                            <slot name="customFunction"></slot>
+                        </div>
+                        <br>
+                        <Table :border="showBorder" :loading="loading" :data="tableData" :columns="filterColumns"  stripe ref="table" @on-selection-change="handleRowChange"></Table>
+                        <div style="margin:10px 0px 10px 0px;overflow: hidden">
+                            <slot name="selectAll"></slot>
+                            <slot name="notSelectAll"></slot>
+                            <slot name="accept"></slot>
+                            <slot name="reject"></slot>
+                            <slot name="delete"></slot>
+                            <div style="float: right;">
+                                <Page :total="pageCount" :current="pageCurrent" :page-size="pageSize" show-total show-elevator @on-change="changePage"></Page>
+                            </div>
+                        </div>
+                    </Row>
+                    <slot name="option"></slot>
+                </Card>
+            </Col>
+        </Row>
+    </div>
+</template>
+
+<script>
+    function nCopy (data) {
+        return JSON.parse(JSON.stringify(data));
+    };
+    export default {
+        name: 'CommonTable',
+        data () {
+            return {
+                nLocalColExcept: [],
+                tableData: [],
+                productData: this.productList(),
+                productId: '',
+                pageSize: 10,
+                pageCurrent: 1,
+                pageCount: this.pageCount,
+                // search for
+                nSearchVal: '',
+                tmpData: [],
+                showBorder: true,
+                loading: true,
+                nData: [],
+                nColumns: this.cColumns
+            };
+        },
+        props: {
+            cColumns: {
+                type: Array,
+                required: true
+            },
+            apiService: {
+                type: String,
+                required: true
+            },
+            productShow: {
+                type: Boolean
+            }
+        },
+        watch: {
+            // Monitor product line changes
+            productId () {
+                this.loading = true;
+                this.pageCurrent = 1;
+                this.pageSize = 10;
+                this.tableList();
+                // Pass product line information to parent component after product line change
+                this.getProduct();
+            }
+        },
+        computed: {
+            nColumnsExcept () {
+                return this.nColExcept || this.nLocalColExcept;
+            },
+            // Filter column
+            filterColumns () {
+                return this.nColumns.filter(x => {
+                    return this.nColumnsExcept.indexOf(x.key) === -1;
+                });
+            }
+        },
+        methods: {
+            // Change the number of displays
+            customPage (num) {
+                this.pageSize = num;
+                let list = [];
+                // If no search is performed, tmpData is the original full data, and if a search is performed, tmpData is the data for the search or
+                list = nCopy(this.tmpData);
+                list.splice(this.pageSize, this.pageCount);
+                this.tableData = list;
+                // Initialize to the first page
+                this.pageCurrent = 1;
+            },
+            tableList () {
+                this.axios.get(this.Global.serverSrc + this.apiService + '&product_id=' + this.productId).then(
+                    res => {
+                        if (res.data['status'] === true) {
+                            var fix_json = [];
+                            var correct_json_path = res.data['data']['data'];
+                            for(var i in correct_json_path) {
+                                fix_json.push(correct_json_path[i]);
+                            }
+                            this.tableData = fix_json;
+                            this.pageCount = this.tableData.length;
+                            // nData The original data can never be changed
+                            this.nData = nCopy(this.tableData);
+                            // tmpData The initial value is the same as nData, which is used for searching, page turning, and changing the number of tables.
+                            this.tmpData = nCopy(this.tableData);
+                            this.tableData.splice(this.pageSize, this.pageCount);
+                            this.pageCurrent = 1;
+                        } else {
+                            this.nError('Get Info Failure', res.data['message']);
+                        };
+                        this.loading = false;
+                    },
+                    err => {
+                        let errInfo = '';
+                        try {
+                            errInfo = err.response.data['message'];
+                            if (err.response.status === 404) {
+                                this.tableData = [];
+                            } else {
+                                this.nError('Get Info Failure', errInfo);
+                            }
+                        } catch (error) {
+                            errInfo = err;
+                            this.nError('Get Info Failure', errInfo);
+                        }
+                        this.tableData = [];
+                        this.loading = false;
+                    });
+            },
+            productList () {
+                this.axios.get(this.Global.serverSrc + 'product').then(
+                    res => {
+                        if (res.data['status'] === true) {
+                            this.productData = res.data['data'];
+                            if (this.productData.length > 0) {
+                                this.productId = this.productData[0].id;
+                            } else {
+                                this.loading = false;
+                            }
+                        } else {
+                            this.loading = false;
+                            this.nError('Get Product Failure', res.data['message']);
+                        }
+                    },
+                    err => {
+                        let errInfo = '';
+                        try {
+                            errInfo = err.response.data['message'];
+                        } catch (error) {
+                            errInfo = err;
+                        }
+                        this.loading = false;
+                        this.nError('Get Product Failure', errInfo);
+                    });
+            },
+            // Redefine the error message
+            nError (title, info) {
+                this.$Notice.error({
+                    title: title,
+                    // Replace <> to avoid being parsed as html tags
+                    desc: info.toString().replace(/<|>/g, ''),
+                    duration: 10
+                });
+            },
+            // Refresh table data
+            refresh () {
+                this.loading = true;
+                this.tableList();
+            },
+            columnsExcept (key) {
+                let index = this.nColumnsExcept.indexOf(key);
+                if (index === -1) {
+                    this.nColumnsExcept.push(key);
+                } else {
+                    this.nColumnsExcept.splice(index, 1);
+                }
+            },
+            changePage (page) {
+                let list = [];
+                // If no search is performed, tmpData is the original full data, and if a search is performed, tmpData is the data for the search or
+                list = nCopy(this.tmpData);
+                this.pageCurrent = page;
+                this.tableData = list.splice((page - 1) * this.pageSize, this.pageSize);
+            },
+            // Export table data
+            exportData (type) {
+                if (type === 1) {
+                    this.$refs.table.exportCsv({
+                        filename: 'saltshaker',
+                        data: this.nData
+                    });
+                } else if (type === 2) {
+                    this.$refs.table.exportCsv({
+                        filename: 'saltshaker',
+                        original: false
+                    });
+                } else if (type === 3) {
+                    this.$refs.table.exportCsv({
+                        filename: 'saltshaker',
+                        columns: this.nColumns.filter((col, index) => index < 4),
+                        data: this.tableData.filter((data, index) => index < 4)
+                    });
+                }
+            },
+            search (data, searchVal) {
+                // The end is the search for the most string, to achieve the effect of fuzzy matching
+                let res = data;
+                let dataClone = data;
+                let searchResult = [];
+                if (searchVal.length > 0) {
+                    for (let i = 0; i < this.nColumns.length; i++) {
+                        let key = this.nColumns[i]['key'];
+                        if (key !== 'action' && key !== undefined) {
+                            res = dataClone.filter(d => {
+                                let value = d[key];
+                                // If it is an array filter
+                                if (value instanceof Array) {
+                                    let tmp = value.filter(v => {
+                                        // If it is an object in the array, search
+                                        if (v instanceof Object) {
+                                            let r = false;
+                                            for (let s in v) {
+                                                let z = '';
+                                                if (v[s] !== undefined) {
+                                                    z = v[s].toString().toLowerCase();
+                                                }
+                                                if (z.indexOf(searchVal.toLowerCase()) > -1) {
+                                                    r = true;
+                                                    return r;
+                                                }
+                                            }
+                                        } else {
+                                            let y = '';
+                                            if (v !== undefined) {
+                                                y = v.toString().toLowerCase();
+                                            }
+                                            return y.indexOf(searchVal.toLowerCase()) > -1;
+                                        }
+                                    });
+                                    return tmp.length > 0;
+                                } else {
+                                    // Convert to string, number has no indexOf method
+                                    let x = '';
+                                    if (value !== undefined) {
+                                        x = value.toString().toLowerCase();
+                                    }
+                                    return x.indexOf(searchVal.toLowerCase()) > -1;
+                                }
+                            });
+                            searchResult = searchResult.concat(res);
+                        }
+                    }
+                    // Array deduplication
+                    return [...new Set(searchResult)];
+                } else {
+                    return res;
+                }
+            },
+            handleSearch () {
+                // Get raw data
+                this.tableData = nCopy(this.nData);
+                // Get the searched data
+                this.tableData = this.search(this.tableData, this.nSearchVal);
+                // Get the length after searching
+                this.pageCount = this.tableData.length;
+                // Assign tmpData with the searched data
+                this.tmpData = nCopy(this.tableData);
+                // Display data with default number of rows
+                this.tableData.splice(this.pageSize, this.pageCount);
+                // Switch to the first page
+                this.pageCurrent = 1;
+            },
+            // delete data
+            del (id) {
+                this.axios.delete(this.Global.serverSrc + this.apiService + '/' + id).then(
+                    res => {
+                        if (res.data['status'] === true) {
+                            this.tableData.splice(this.delIndex, 1);
+                            this.$Message.success('successfully deleted');
+                            this.tableList();
+                        } else {
+                            this.nError('Delete Failure', res.data['message']);
+                        }
+                    },
+                    err => {
+                        let errInfo = '';
+                        try {
+                            errInfo = err.response.data['message'];
+                        } catch (error) {
+                            errInfo = err;
+                        }
+                        this.nError('Delete Failure', errInfo);
+                    });
+            },
+            // kill jid
+            kill (id, minion) {
+                let postData = {
+                    'minion': minion
+                };
+                this.axios.post(this.Global.serverSrc + this.apiService + '?action=kill&jid=' + id + '&product_id=' + this.productId, postData).then(
+                    res => {
+                        if (res.data['status'] === true) {
+                            this.tableData.splice(this.delIndex, 1);
+                            this.$Message.success('Kill success！');
+                            this.tableList();
+                        } else {
+                            this.nError('Delete Failure', res.data['message']);
+                        }
+                    },
+                    err => {
+                        let errInfo = '';
+                        try {
+                            errInfo = err.response.data['message'];
+                        } catch (error) {
+                            errInfo = err;
+                        }
+                        this.nError('Delete Failure', errInfo);
+                    });
+            },
+            // Pass to parent component
+            getProduct () {
+                this.$emit('getProductEvent', this.productData, this.productId);
+            },
+            getTable () {
+                this.$emit('getTableEvent', this.tableData);
+            },
+            // Pass the selected row data to the parent component
+            handleRowChange (currentRow) {
+                this.$emit('getRowEvent', currentRow);
+            }
+        }
+    };
+</script>
+<style scoped>
+.hr-margin{
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+</style>

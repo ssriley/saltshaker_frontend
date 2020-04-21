@@ -29,14 +29,14 @@
 </template>
 
 <script>
-    import CommonTable from '../common-components/table/table.vue';
+    import CommonTable from '../common-components/table/grain_table.vue';
     export default {
         components: {
             CommonTable
         },
         data () {
             return {
-                apiService: 'minions/grains',
+                apiService: 'minions/grain?minion=*',
                 showInfo: false,
                 result: '',
                 productId: '',
@@ -44,6 +44,7 @@
                 progress: false,
                 minion: [],
                 rowData: [],
+                productData: [],
                 percent: 0,
                 cColumns: [
                     {
